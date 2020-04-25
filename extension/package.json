@@ -1,5 +1,5 @@
 {
-  "name": "pupcket-chrome",
+  "name": "pupcket-extension",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
