@@ -11,6 +11,12 @@ jupyter = "*"
 django = "*"
 selenium = "*"
 pillow = "*"
+psycopg2-binary = "*"
+boto3 = "*"
+requests = "*"
+redis = "*"
+djangorestframework = "*"
+celery = "*"
 
 [requires]
 python_version = "3.7"

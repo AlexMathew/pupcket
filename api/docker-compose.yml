@@ -1,0 +1,54 @@
+version: "3"
+
+services:
+  pupcket:
+    container_name: pupcket-webserver
+    hostname: pupcket
+    env_file:
+      - ops/.env
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+      - redis
+    command: bash -c "python3 manage.py migrate && python3 manage.py runserver 0.0.0.0:8000"
+    restart: on-failure:5
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+
+  db:
+    image: postgres:10-alpine
+    container_name: pupcket-postgres
+    environment:
+      - POSTGRES_USER=pupcket
+      - POSTGRES_PASSWORD=pupcket
+    volumes:
+      - pupcket-data-postgres:/var/lib/postgresql/data
+
+  redis:
+    image: redis
+    container_name: pupcket-redis
+    volumes:
+      - pupcket-data-redis:/data
+
+  celery:
+    container_name: pupcket-celery
+    env_file:
+      - ops/.env
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+      - redis
+    command: celery -A pupcket worker --concurrency=20 --loglevel=info
+    restart: on-failure:5
+    volumes:
+      - .:/code
+
+volumes:
+  pupcket-data-postgres:
+  pupcket-data-redis:
