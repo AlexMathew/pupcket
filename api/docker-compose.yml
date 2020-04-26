@@ -16,6 +16,7 @@ services:
     restart: on-failure:5
     volumes:
       - .:/code
+      - pupcket-ipython:/root/.ipython
     ports:
       - "8000:8000"
 
@@ -48,7 +49,9 @@ services:
     restart: on-failure:5
     volumes:
       - .:/code
+      - pupcket-ipython:/root/.ipython
 
 volumes:
+  pupcket-ipython:
   pupcket-data-postgres:
   pupcket-data-redis:
