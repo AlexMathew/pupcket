@@ -9,7 +9,7 @@ urlpatterns = [
 ]
 
 router = DefaultRouter()
-router.register(r"moment", SavedMomentView)
+router.register(r"moment", SavedMomentView, basename="moment")
 
 urlpatterns += [
     path("", include(router.urls)),

@@ -7,8 +7,13 @@ from pup.serializers import SavedMomentSerializer
 class SavedMomentView(
     mixins.ListModelMixin, mixins.CreateModelMixin, viewsets.GenericViewSet,
 ):
-    queryset = SavedMoment.objects.all()
     serializer_class = SavedMomentSerializer
+
+    def get_queryset(self):
+        if self.action == "list":
+            return SavedMoment.objects.filter(screenshot_generated=True)
+        else:
+            return SavedMoment.objects.all()
 
     def post(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs)
