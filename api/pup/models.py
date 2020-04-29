@@ -41,18 +41,18 @@ class SavedMoment(models.Model):
 @receiver(post_save, sender=SavedMoment)
 def save_screenshot_of_moment(sender, instance=None, created=False, **kwargs):
     if created:
-        take_screenshot.delay(instance.url, instance.screenshot_name)
+        take_screenshot.delay(instance.id, instance.url, instance.screenshot_name)
 
 
 @app.task
-def take_screenshot(url, filename):
+def take_screenshot(instance_id, url, filename):
     twitter = Twitter(url, filename)
     twitter.generate_screenshot()
-    upload_to_s3.delay(filename)
+    upload_to_s3.delay(instance_id, filename)
 
 
 @app.task
-def upload_to_s3(filename):
+def upload_to_s3(instance_id, filename):
     image_location = f"/tmp/{filename}.png"
     s3.upload_file(
         bucket_name=os.getenv("S3_BUCKET_NAME"),
@@ -60,5 +60,6 @@ def upload_to_s3(filename):
         source_file=image_location,
         content_type=f"image/png",
     )
-    # instance.screenshot_generated = True
-    # instance.save()
+    instance = SavedMoment.objects.get(id=instance_id)
+    instance.screenshot_generated = True
+    instance.save()
