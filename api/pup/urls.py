@@ -5,7 +5,8 @@ from rest_framework.routers import DefaultRouter
 from pup.views import SavedMomentView
 
 urlpatterns = [
-    path("auth/", views.obtain_auth_token),
+    path("auth/", include("djoser.urls")),
+    path("auth/", include("djoser.urls.authtoken")),
 ]
 
 router = DefaultRouter()

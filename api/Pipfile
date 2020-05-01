@@ -19,6 +19,7 @@ requests = "*"
 redis = "*"
 djangorestframework = "*"
 celery = "*"
+djoser = "*"
 
 [requires]
 python_version = "3.7"
