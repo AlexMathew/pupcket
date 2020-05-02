@@ -11,7 +11,9 @@ class SavedMomentView(
 
     def get_queryset(self):
         if self.action == "list":
-            return SavedMoment.objects.filter(screenshot_generated=True)
+            return SavedMoment.objects.filter(
+                screenshot_generated=True, owner=self.request.user
+            )
         else:
             return SavedMoment.objects.all()
 
