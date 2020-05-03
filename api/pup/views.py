@@ -1,21 +1,28 @@
 from rest_framework import mixins, status, viewsets
 
 from pup.models import SavedMoment
-from pup.serializers import SavedMomentSerializer
+from pup.serializers import SavedMomentSerializer, SavedMomentRetrieveSerializer
 
 
 class SavedMomentView(
-    mixins.ListModelMixin, mixins.CreateModelMixin, viewsets.GenericViewSet,
+    mixins.ListModelMixin,
+    mixins.CreateModelMixin,
+    mixins.RetrieveModelMixin,
+    viewsets.GenericViewSet,
 ):
-    serializer_class = SavedMomentSerializer
-
     def get_queryset(self):
-        if self.action == "list":
+        if self.action in ["list", "retrieve"]:
             return SavedMoment.objects.filter(
                 screenshot_generated=True, owner=self.request.user
             )
-        else:
-            return SavedMoment.objects.all()
+
+        return SavedMoment.objects.all()
+
+    def get_serializer_class(self):
+        if self.action == "retrieve":
+            return SavedMomentRetrieveSerializer
+
+        return SavedMomentSerializer
 
     def post(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs)
