@@ -1,3 +1,4 @@
+import base64
 import os
 from hashlib import md5
 
@@ -19,6 +20,7 @@ class SavedMoment(models.Model):
     )
     url = models.CharField(max_length=500, validators=[URLValidator])
     screenshot_generated = models.BooleanField(default=False)
+    image_encoded = models.TextField(blank=True)
     created_date = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -48,11 +50,14 @@ def save_screenshot_of_moment(sender, instance=None, created=False, **kwargs):
 def take_screenshot(instance_id, url, filename):
     twitter = Twitter(url, filename)
     twitter.generate_screenshot()
-    upload_to_s3.delay(instance_id, filename)
+    store_image.delay(instance_id, filename)
 
 
 @app.task
-def upload_to_s3(instance_id, filename):
+def store_image(instance_id, filename):
+    instance = SavedMoment.objects.only("screenshot_generated", "image_encoded").get(
+        id=instance_id
+    )
     image_location = f"/tmp/{filename}.png"
     s3.upload_file(
         bucket_name=os.getenv("S3_BUCKET_NAME"),
@@ -60,6 +65,10 @@ def upload_to_s3(instance_id, filename):
         source_file=image_location,
         content_type=f"image/png",
     )
-    instance = SavedMoment.objects.get(id=instance_id)
     instance.screenshot_generated = True
+    with open(image_location, "rb") as image:
+        data = image.read()
+        instance.image_encoded = (
+            f"data:image/png;base64,{base64.b64encode(data).decode()}"
+        )
     instance.save()
