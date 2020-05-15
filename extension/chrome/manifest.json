@@ -9,9 +9,8 @@
         "48": "icons/logo48.png",
         "128": "icons/logo128.png"
     },
-    "browser_action": {
-        "default_title": "Pupcket",
-        "default_popup": "index.html"
+    "chrome_url_overrides": {
+        "newtab": "index.html"
     },
     "permissions": []
 }
