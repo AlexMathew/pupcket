@@ -10,7 +10,16 @@
         "128": "icons/logo128.png"
     },
     "chrome_url_overrides": {
-        "newtab": "index.html"
+        "newtab": "newtab.html"
     },
-    "permissions": []
+    "options_page": "options.html",
+    "background": {
+        "page": "background.html"
+    },
+    "browser_action": {
+        "default_popup": "popup.html",
+        "default_icon": "icons/logo48.png"
+    },
+    "permissions": [],
+    "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
 }

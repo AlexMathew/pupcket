@@ -1,62 +1,117 @@
-const path = require("path");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const CopyPlugin = require("copy-webpack-plugin");
-const baseManifest = require("./public/manifest.json");
-const WebpackExtensionManifestPlugin = require("webpack-extension-manifest-plugin");
-const config = {
-  mode: "development",
-  devtool: "cheap-module-source-map",
+var webpack = require("webpack"),
+  path = require("path"),
+  env = require("./utils/env"),
+  CleanWebpackPlugin = require("clean-webpack-plugin").CleanWebpackPlugin,
+  CopyWebpackPlugin = require("copy-webpack-plugin"),
+  HtmlWebpackPlugin = require("html-webpack-plugin"),
+  WriteFilePlugin = require("write-file-webpack-plugin");
+
+var fileExtensions = [
+  "jpg",
+  "jpeg",
+  "png",
+  "gif",
+  "eot",
+  "otf",
+  "svg",
+  "ttf",
+  "woff",
+  "woff2",
+];
+
+var options = {
+  mode: process.env.NODE_ENV || "development",
   entry: {
-    app: path.join(__dirname, "./src/index.js"),
+    newtab: path.join(__dirname, "src", "newtab.js"),
+    popup: path.join(__dirname, "src", "popup.js"),
+    options: path.join(__dirname, "src", "options.js"),
+    background: path.join(__dirname, "src", "background.js"),
   },
   output: {
-    path: path.resolve(__dirname, "./build"),
-    filename: "[name].js",
+    path: path.join(__dirname, "build"),
+    filename: "[name].bundle.js",
+  },
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        loader: "style-loader!css-loader",
+        exclude: /node_modules/,
+      },
+      {
+        test: new RegExp(".(" + fileExtensions.join("|") + ")$"),
+        loader: "file-loader?name=[name].[ext]",
+        exclude: /node_modules/,
+      },
+      {
+        test: /\.html$/,
+        loader: "html-loader",
+        exclude: /node_modules/,
+      },
+      {
+        test: /\.(js|jsx)$/,
+        loader: "babel-loader",
+        exclude: /node_modules/,
+      },
+    ],
   },
   resolve: {
-    extensions: ["*", ".js"],
+    extensions: fileExtensions
+      .map((extension) => "." + extension)
+      .concat([".jsx", ".js", ".css"]),
   },
   plugins: [
-    new HtmlWebpackPlugin({
-      title: "boilerplate", // change this to your app title
-      meta: {
-        charset: "utf-8",
-        viewport: "width=device-width, initial-scale=1, shrink-to-fit=no",
-        "theme-color": "#000000",
+    // clean the build folder
+    new CleanWebpackPlugin(),
+    // expose and write the allowed env vars on the compiled bundle
+    new webpack.EnvironmentPlugin(["NODE_ENV"]),
+    new CopyWebpackPlugin([
+      {
+        from: "public/manifest.json",
+        transform: function (content, path) {
+          // generates the manifest file using the package.json informations
+          return Buffer.from(
+            JSON.stringify({
+              description: process.env.npm_package_description,
+              version: process.env.npm_package_version,
+              ...JSON.parse(content.toString()),
+            })
+          );
+        },
       },
-      manifest: "manifest.json",
-      filename: "index.html",
-      template: "./public/index.html",
-      hash: true,
-    }),
-    new CopyPlugin([
+    ]),
+    new CopyWebpackPlugin([
       {
         from: "public/icons",
         to: "icons",
       },
     ]),
-    new WebpackExtensionManifestPlugin({
-      config: {
-        base: baseManifest,
-      },
+    new HtmlWebpackPlugin({
+      template: path.join(__dirname, "public", "newtab.html"),
+      filename: "newtab.html",
+      chunks: ["newtab"],
     }),
+    new HtmlWebpackPlugin({
+      template: path.join(__dirname, "public", "popup.html"),
+      filename: "popup.html",
+      chunks: ["popup"],
+    }),
+    new HtmlWebpackPlugin({
+      template: path.join(__dirname, "public", "options.html"),
+      filename: "options.html",
+      chunks: ["options"],
+    }),
+    new HtmlWebpackPlugin({
+      template: path.join(__dirname, "public", "background.html"),
+      filename: "background.html",
+      chunks: ["background"],
+    }),
+    new WriteFilePlugin(),
   ],
-  module: {
-    rules: [
-      {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        use: ["babel-loader"],
-      },
-      {
-        test: /\.css$/,
-        use: ["style-loader", "css-loader"],
-      },
-      {
-        test: /\.(png|svg|jpg|gif)$/,
-        use: ["file-loader"],
-      },
-    ],
-  },
 };
-module.exports = config;
+
+if (env.NODE_ENV === "development") {
+  options.devtool = "cheap-module-eval-source-map";
+}
+
+module.exports = options;
