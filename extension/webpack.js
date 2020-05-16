@@ -1,13 +1,13 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
-const baseManifest = require("./chrome/manifest.json");
+const baseManifest = require("./public/manifest.json");
 const WebpackExtensionManifestPlugin = require("webpack-extension-manifest-plugin");
 const config = {
   mode: "development",
   devtool: "cheap-module-source-map",
   entry: {
-    app: path.join(__dirname, "./static/index.js"),
+    app: path.join(__dirname, "./src/index.js"),
   },
   output: {
     path: path.resolve(__dirname, "./build"),
@@ -26,12 +26,12 @@ const config = {
       },
       manifest: "manifest.json",
       filename: "index.html",
-      template: "./static/index.html",
+      template: "./public/index.html",
       hash: true,
     }),
     new CopyPlugin([
       {
-        from: "chrome/icons",
+        from: "public/icons",
         to: "icons",
       },
     ]),
