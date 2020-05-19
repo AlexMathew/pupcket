@@ -14,35 +14,39 @@ import Typography from "@material-ui/core/Typography";
 import withStyles from "@material-ui/core/styles/withStyles";
 import { AUTH_TOKEN_FIELD } from "../../constants";
 import { red } from "@material-ui/core/colors";
+import { Button } from "@material-ui/core";
 
 const styles = (theme) => ({
   main: {
     width: "auto",
     display: "block",
-    marginLeft: theme.spacing.unit * 3,
-    marginRight: theme.spacing.unit * 3,
-    [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
+    marginLeft: theme.spacing(3),
+    marginRight: theme.spacing(3),
+    [theme.breakpoints.up(400 + theme.spacing(6))]: {
       width: 400,
       marginLeft: "auto",
       marginRight: "auto",
     },
   },
   paper: {
-    marginTop: theme.spacing.unit * 8,
+    marginTop: theme.spacing(8),
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${
-      theme.spacing.unit * 3
-    }px`,
+    padding: `${theme.spacing(2)}px ${theme.spacing(3)}px ${theme.spacing(
+      3
+    )}px`,
   },
   avatar: {
-    margin: theme.spacing.unit,
+    margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
     width: "100%",
-    marginTop: theme.spacing.unit,
+    marginTop: theme.spacing(1),
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
   },
   error: {
     color: red[500],
@@ -53,6 +57,7 @@ class Authentication extends React.Component {
   state = {
     login: 0,
     username: "",
+    email: "",
     password: "",
     message: "",
     error: false,
@@ -61,7 +66,7 @@ class Authentication extends React.Component {
   componentDidMount() {
     const auth_token = localStorage.getItem(AUTH_TOKEN_FIELD);
     if (auth_token) {
-      this.props.history.push("/");
+      console.log(auth_token);
     }
   }
 
@@ -83,7 +88,7 @@ class Authentication extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const { login, username, password, message, error } = this.state;
+    const { login, username, email, password, message, error } = this.state;
 
     return (
       <main className={classes.main}>
@@ -126,7 +131,7 @@ class Authentication extends React.Component {
             ""
           )}
           <FormControl margin="normal" required fullWidth>
-            <InputLabel htmlFor="email">Username</InputLabel>
+            <InputLabel htmlFor="username">Username</InputLabel>
             <Input
               id="username"
               name="username"
@@ -136,6 +141,21 @@ class Authentication extends React.Component {
               onChange={(e) => this.setState({ username: e.target.value })}
             />
           </FormControl>
+          {login === 1 ? (
+            <FormControl margin="normal" required fullWidth>
+              <InputLabel htmlFor="email">Email</InputLabel>
+              <Input
+                id="email"
+                name="email"
+                autoComplete="email"
+                autoFocus
+                value={email}
+                onChange={(e) => this.setState({ email: e.target.value })}
+              />
+            </FormControl>
+          ) : (
+            ""
+          )}
           <FormControl margin="normal" required fullWidth>
             <InputLabel htmlFor="password">Password</InputLabel>
             <Input
@@ -147,6 +167,15 @@ class Authentication extends React.Component {
               onChange={(e) => this.setState({ password: e.target.value })}
             />
           </FormControl>
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            className={classes.submit}
+          >
+            {login === 0 ? "Log In" : "Sign Up"}
+          </Button>
         </Paper>
       </main>
     );
