@@ -15,6 +15,7 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import { AUTH_TOKEN_FIELD } from "../../constants";
 import { red } from "@material-ui/core/colors";
 import { Button } from "@material-ui/core";
+import pupcket from "../../api/pupcket";
 
 const styles = (theme) => ({
   main: {
@@ -84,6 +85,31 @@ class Authentication extends React.Component {
 
   onError = () => {
     this.setState({ error: true });
+  };
+
+  buttonClick = (event) => {
+    this.state.login === 0 ? this.login() : this.signup();
+  };
+
+  login = () => {
+    const { username, password } = this.state;
+
+    const response = pupcket.post("/auth/token/login/", {
+      username,
+      password,
+    });
+    console.log(response);
+  };
+
+  signup = () => {
+    const { username, email, password } = this.state;
+
+    const response = pupcket.post("/auth/users/", {
+      username,
+      email,
+      password,
+    });
+    console.log(response);
   };
 
   render() {
@@ -173,6 +199,7 @@ class Authentication extends React.Component {
             variant="contained"
             color="primary"
             className={classes.submit}
+            onClick={() => this.buttonClick()}
           >
             {login === 0 ? "Log In" : "Sign Up"}
           </Button>
