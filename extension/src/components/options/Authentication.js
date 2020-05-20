@@ -50,6 +50,7 @@ const styles = (theme) => ({
     margin: theme.spacing(3, 0, 2),
   },
   error: {
+    fontSize: theme.spacing(2),
     color: red[500],
   },
 });
@@ -60,7 +61,7 @@ class Authentication extends React.Component {
     username: "",
     email: "",
     password: "",
-    message: "",
+    messages: [],
     error: false,
   };
 
@@ -72,11 +73,18 @@ class Authentication extends React.Component {
   }
 
   handleTabChange = (event, value) => {
-    this.setState({ login: value, username: "", password: "", error: false });
+    this.setState({
+      login: value,
+      username: "",
+      password: "",
+      email: "",
+      messages: [],
+      error: false,
+    });
   };
 
-  setMessage = (message) => {
-    this.setState({ message });
+  setMessages = (messages) => {
+    this.setState({ messages });
   };
 
   switchToLogin = () => {
@@ -92,29 +100,47 @@ class Authentication extends React.Component {
   };
 
   login = () => {
+    const fields = ["username", "password", "non_field_errors"];
     const { username, password } = this.state;
 
-    const response = pupcket.post("/auth/token/login/", {
-      username,
-      password,
-    });
-    console.log(response);
+    pupcket
+      .post("/auth/token/login/", {
+        username,
+        password,
+      })
+      .then((data) => {})
+      .catch((error) => {
+        if (error.response) {
+          const data = error.response.data;
+          const messages = fields.map((field) => data[field]);
+          this.setMessages(messages);
+        }
+      });
   };
 
   signup = () => {
+    const fields = ["username", "email", "password", "non_field_errors"];
     const { username, email, password } = this.state;
 
-    const response = pupcket.post("/auth/users/", {
-      username,
-      email,
-      password,
-    });
-    console.log(response);
+    pupcket
+      .post("/auth/users/", {
+        username,
+        email,
+        password,
+      })
+      .then((data) => {})
+      .catch((error) => {
+        if (error.response) {
+          const data = error.response.data;
+          const messages = fields.map((field) => data[field]);
+          this.setMessages(messages);
+        }
+      });
   };
 
   render() {
     const { classes } = this.props;
-    const { login, username, email, password, message, error } = this.state;
+    const { login, username, email, password, messages, error } = this.state;
 
     return (
       <main className={classes.main}>
@@ -146,9 +172,11 @@ class Authentication extends React.Component {
           <Typography component="h1" variant="h5">
             {login === 0 ? "Log in" : "Sign up"}
           </Typography>
-          <Typography component="h4" variant="h6" className={classes.error}>
-            {message || ""}
-          </Typography>
+          {messages.map((message) => (
+            <Typography component="h4" variant="h6" className={classes.error}>
+              {message || ""}
+            </Typography>
+          ))}
           {error ? (
             <Typography component="h4" variant="h6" className={classes.error}>
               {login === 0 ? "Invalid credentials" : "Username already in use"}
