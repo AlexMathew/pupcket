@@ -66,10 +66,9 @@ class Authentication extends React.Component {
   };
 
   componentDidMount() {
-    const auth_token = localStorage.getItem(AUTH_TOKEN_FIELD);
-    if (auth_token) {
-      console.log(auth_token);
-    }
+    chrome.storage.local.get([AUTH_TOKEN_FIELD], (result) => {
+      console.log(result);
+    });
   }
 
   handleTabChange = (event, value) => {
@@ -108,7 +107,15 @@ class Authentication extends React.Component {
         username,
         password,
       })
-      .then((data) => {})
+      .then((response) => {
+        const { data } = response;
+        chrome.storage.local.set(
+          { [AUTH_TOKEN_FIELD]: data.auth_token },
+          () => {
+            console.log("Value is set to " + data.auth_token);
+          }
+        );
+      })
       .catch((error) => {
         if (error.response) {
           const data = error.response.data;

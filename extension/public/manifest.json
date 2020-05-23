@@ -20,6 +20,9 @@
         "default_popup": "popup.html",
         "default_icon": "icons/logo48.png"
     },
-    "permissions": [],
+    "permissions": [
+        "alarms",
+        "storage"
+    ],
     "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
 }
