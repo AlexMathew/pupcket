@@ -179,8 +179,13 @@ class Authentication extends React.Component {
           <Typography component="h1" variant="h5">
             {login === 0 ? "Log in" : "Sign up"}
           </Typography>
-          {messages.map((message) => (
-            <Typography component="h4" variant="h6" className={classes.error}>
+          {messages.map((message, index) => (
+            <Typography
+              key={index}
+              component="h4"
+              variant="h6"
+              className={classes.error}
+            >
               {message || ""}
             </Typography>
           ))}
