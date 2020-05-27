@@ -20,7 +20,6 @@ class SavedMoment(models.Model):
     )
     url = models.CharField(max_length=500, validators=[URLValidator])
     screenshot_generated = models.BooleanField(default=False)
-    image_encoded = models.TextField(blank=True)
     created_date = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -55,9 +54,7 @@ def take_screenshot(instance_id, url, filename):
 
 @app.task
 def store_image(instance_id, filename):
-    instance = SavedMoment.objects.only("screenshot_generated", "image_encoded").get(
-        id=instance_id
-    )
+    instance = SavedMoment.objects.only("screenshot_generated").get(id=instance_id)
     image_location = f"/tmp/{filename}.png"
     s3.upload_file(
         bucket_name=os.getenv("S3_BUCKET_NAME"),
@@ -66,9 +63,4 @@ def store_image(instance_id, filename):
         content_type=f"image/png",
     )
     instance.screenshot_generated = True
-    with open(image_location, "rb") as image:
-        data = image.read()
-        instance.image_encoded = (
-            f"data:image/png;base64,{base64.b64encode(data).decode()}"
-        )
     instance.save()

@@ -1,7 +1,7 @@
 from rest_framework import mixins, status, viewsets
 
 from pup.models import SavedMoment
-from pup.serializers import SavedMomentSerializer, SavedMomentRetrieveSerializer
+from pup.serializers import SavedMomentSerializer
 
 
 class SavedMomentView(
@@ -19,9 +19,6 @@ class SavedMomentView(
         return SavedMoment.objects.all()
 
     def get_serializer_class(self):
-        if self.action == "retrieve":
-            return SavedMomentRetrieveSerializer
-
         return SavedMomentSerializer
 
     def post(self, request, *args, **kwargs):

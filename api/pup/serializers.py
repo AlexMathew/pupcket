@@ -11,7 +11,7 @@ class SavedMomentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SavedMoment
-        exclude = ["image_encoded"]
+        fields = "__all__"
 
     def create(self, validated_data):
         owner = validated_data.get("owner")
@@ -23,9 +23,3 @@ class SavedMomentSerializer(serializers.ModelSerializer):
 
     def get_screenshot_url(self, obj):
         return f"https://{os.getenv('CLOUDFRONT_URL')}/{obj.screenshot_name}.png"
-
-
-class SavedMomentRetrieveSerializer(SavedMomentSerializer):
-    class Meta:
-        model = SavedMoment
-        fields = "__all__"
