@@ -1,17 +1,14 @@
-import { AUTH_TOKEN_FIELD } from "./constants";
+import { fetchMoments } from "./utils/pupcket";
 
 chrome.runtime.onInstalled.addListener(() => {
   console.log("onInstalled...");
-  chrome.alarms.create("refresh", { periodInMinutes: 0.25 });
+  chrome.alarms.create("refresh", { periodInMinutes: 10 });
 });
 
-chrome.alarms.onAlarm.addListener((alarm) => {
-  console.log(alarm.name);
-  helloWorld();
+chrome.alarms.onAlarm.addListener(() => {
+  prefetchMoments();
 });
 
-function helloWorld() {
-  chrome.storage.local.get(AUTH_TOKEN_FIELD, (result) => {
-    console.log(result);
-  });
+function prefetchMoments() {
+  fetchMoments();
 }
