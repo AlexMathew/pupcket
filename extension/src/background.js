@@ -24,3 +24,7 @@ chrome.alarms.onAlarm.addListener(() => {
 function prefetchMoments() {
   fetchMoments();
 }
+
+chrome.pageAction.onClicked.addListener((tab) => {
+  console.log(tab.url);
+});

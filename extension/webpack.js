@@ -23,7 +23,6 @@ var options = {
   mode: process.env.NODE_ENV || "development",
   entry: {
     newtab: path.join(__dirname, "src", "newtab.js"),
-    popup: path.join(__dirname, "src", "popup.js"),
     options: path.join(__dirname, "src", "options.js"),
     background: path.join(__dirname, "src", "background.js"),
   },
@@ -90,11 +89,6 @@ var options = {
       template: path.join(__dirname, "public", "newtab.html"),
       filename: "newtab.html",
       chunks: ["newtab"],
-    }),
-    new HtmlWebpackPlugin({
-      template: path.join(__dirname, "public", "popup.html"),
-      filename: "popup.html",
-      chunks: ["popup"],
     }),
     new HtmlWebpackPlugin({
       template: path.join(__dirname, "public", "options.html"),
