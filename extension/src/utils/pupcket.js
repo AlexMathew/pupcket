@@ -3,12 +3,12 @@ import pupcket from "../api/pupcket";
 
 export function fetchMoments() {
   chrome.storage.local.get(AUTH_TOKEN_FIELD, (result) => {
-    const token = result[[AUTH_TOKEN_FIELD]];
-    if (token !== undefined) {
+    const { auth_token } = result[[AUTH_TOKEN_FIELD]];
+    if (auth_token !== undefined) {
       pupcket
         .get("/moment/", {
           headers: {
-            Authorization: `Token ${token}`,
+            Authorization: `Token ${auth_token}`,
           },
         })
         .then((response) => {
@@ -26,15 +26,15 @@ export function fetchMoments() {
 
 export function saveMoment(url) {
   chrome.storage.local.get(AUTH_TOKEN_FIELD, (result) => {
-    const token = result[[AUTH_TOKEN_FIELD]];
-    if (token !== undefined && token !== null) {
+    const { auth_token } = result[[AUTH_TOKEN_FIELD]];
+    if (auth_token !== undefined && auth_token !== null) {
       pupcket
         .post(
           "/moment/",
           { url },
           {
             headers: {
-              Authorization: `Token ${token}`,
+              Authorization: `Token ${auth_token}`,
             },
           }
         )
