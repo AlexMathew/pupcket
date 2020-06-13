@@ -27,7 +27,7 @@ export function fetchMoments() {
 export function saveMoment(url) {
   chrome.storage.local.get(AUTH_TOKEN_FIELD, (result) => {
     const token = result[[AUTH_TOKEN_FIELD]];
-    if (token !== undefined) {
+    if (token !== undefined && token !== null) {
       pupcket
         .post(
           "/moment/",
@@ -44,6 +44,8 @@ export function saveMoment(url) {
         .catch((err) => {
           console.log(err);
         });
+    } else {
+      chrome.runtime.openOptionsPage();
     }
   });
 }
