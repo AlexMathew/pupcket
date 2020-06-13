@@ -23,3 +23,27 @@ export function fetchMoments() {
     }
   });
 }
+
+export function saveMoment(url) {
+  chrome.storage.local.get(AUTH_TOKEN_FIELD, (result) => {
+    const token = result[[AUTH_TOKEN_FIELD]];
+    if (token !== undefined) {
+      pupcket
+        .post(
+          "/moment/",
+          { url },
+          {
+            headers: {
+              Authorization: `Token ${token}`,
+            },
+          }
+        )
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  });
+}

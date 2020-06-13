@@ -1,4 +1,4 @@
-import { fetchMoments } from "./utils/pupcket";
+import { fetchMoments, saveMoment } from "./utils/pupcket";
 
 chrome.runtime.onInstalled.addListener(() => {
   console.log("onInstalled...");
@@ -26,5 +26,5 @@ function prefetchMoments() {
 }
 
 chrome.pageAction.onClicked.addListener((tab) => {
-  console.log(tab.url);
+  saveMoment(tab.url);
 });
