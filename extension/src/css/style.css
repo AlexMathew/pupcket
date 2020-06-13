@@ -1,5 +1,4 @@
 .container {
-    background-image: url('https://drvab27qowml6.cloudfront.net/b86424b61ff97c4cbbf33fbb49c6da09.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -10,7 +9,6 @@
 }
 
 .center {
-    background-image: url('https://drvab27qowml6.cloudfront.net/b86424b61ff97c4cbbf33fbb49c6da09.png');
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
