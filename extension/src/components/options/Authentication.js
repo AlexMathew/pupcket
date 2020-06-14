@@ -6,12 +6,14 @@ import { AUTH_TOKEN_FIELD } from "../../constants";
 class Authentication extends React.Component {
   state = {
     authenticated: false,
+    username: "",
   };
 
   componentDidMount() {
-    chrome.storage.local.get([AUTH_TOKEN_FIELD], (token) => {
-      if (token !== undefined && token.auth_token !== null) {
-        this.setState({ authenticated: true });
+    chrome.storage.local.get([AUTH_TOKEN_FIELD], (result) => {
+      const token = result[[AUTH_TOKEN_FIELD]];
+      if (result !== undefined && token.auth_token !== null) {
+        this.setState({ authenticated: true, username: token.username });
       }
     });
   }
@@ -20,7 +22,7 @@ class Authentication extends React.Component {
     const { authenticated } = this.state;
 
     if (authenticated) {
-      return <LoggedIn />;
+      return <LoggedIn username={this.state.username} />;
     } else {
       return <AuthSection />;
     }
