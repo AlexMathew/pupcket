@@ -10,6 +10,8 @@ class SavedMomentView(
     mixins.RetrieveModelMixin,
     viewsets.GenericViewSet,
 ):
+    serializer_class = SavedMomentSerializer
+
     def get_queryset(self):
         if self.action in ["list", "retrieve"]:
             return SavedMoment.objects.filter(
@@ -17,9 +19,6 @@ class SavedMomentView(
             )
 
         return SavedMoment.objects.all()
-
-    def get_serializer_class(self):
-        return SavedMomentSerializer
 
     def post(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs)

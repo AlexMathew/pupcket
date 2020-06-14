@@ -11,7 +11,7 @@ class SavedMomentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SavedMoment
-        fields = "__all__"
+        fields = ["owner", "url", "screenshot_url"]
 
     def create(self, validated_data):
         owner = validated_data.get("owner")
