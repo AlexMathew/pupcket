@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import withStyles from "@material-ui/core/styles/withStyles";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
 
 const styles = (theme) => ({
   main: {
@@ -26,6 +27,9 @@ const styles = (theme) => ({
       3
     )}px`,
   },
+  logout: {
+    margin: theme.spacing(3, 0, 2),
+  },
 });
 
 class LoggedIn extends React.Component {
@@ -39,6 +43,13 @@ class LoggedIn extends React.Component {
           <Typography component="h4" variant="h4">
             Logged in as {this.props.username}.
           </Typography>
+          <Button
+            className={classes.logout}
+            variant="outlined"
+            onClick={this.props.logout}
+          >
+            Log out
+          </Button>
         </Paper>
       </main>
     );

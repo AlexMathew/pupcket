@@ -12,7 +12,6 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 import withStyles from "@material-ui/core/styles/withStyles";
-import { AUTH_TOKEN_FIELD } from "../../constants";
 import { red } from "@material-ui/core/colors";
 import { Button } from "@material-ui/core";
 import pupcket from "../../api/pupcket";
@@ -103,9 +102,7 @@ class AuthSection extends React.Component {
       })
       .then((response) => {
         const { auth_token } = response.data;
-        chrome.storage.local.set({
-          [AUTH_TOKEN_FIELD]: { auth_token, username },
-        });
+        this.props.login({ auth_token, username });
       })
       .catch((error) => {
         if (error.response) {
