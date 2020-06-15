@@ -1,7 +1,11 @@
 import React from "react";
 import AuthSection from "./AuthSection";
 import LoggedIn from "./LoggedIn";
-import { AUTH_TOKEN_FIELD, MOMENTS_STORAGE_FIELD } from "../../constants";
+import {
+  AUTH_TOKEN_FIELD,
+  MOMENTS_STORAGE_FIELD,
+  MOMENTS_COUNT_FIELD,
+} from "../../constants";
 import { fetchMoments } from "../../utils/pupcket";
 
 class Authentication extends React.Component {
@@ -28,7 +32,11 @@ class Authentication extends React.Component {
   };
 
   logout = () => {
-    chrome.storage.local.remove([AUTH_TOKEN_FIELD, MOMENTS_STORAGE_FIELD]);
+    chrome.storage.local.remove([
+      AUTH_TOKEN_FIELD,
+      MOMENTS_STORAGE_FIELD,
+      MOMENTS_COUNT_FIELD,
+    ]);
     this.setState({ authenticated: false, username: "" });
   };
 
