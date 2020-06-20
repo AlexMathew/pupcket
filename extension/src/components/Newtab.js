@@ -1,4 +1,5 @@
 import React from "react";
+import { Helmet } from "react-helmet";
 import { MOMENTS_STORAGE_FIELD } from "../constants";
 
 class Newtab extends React.Component {
@@ -17,6 +18,9 @@ class Newtab extends React.Component {
   render() {
     return (
       <div>
+        <Helmet>
+          <link rel="preload" as="image" href={this.state.image} />
+        </Helmet>
         <div
           className="container"
           style={{ backgroundImage: `url(${this.state.image})` }}
