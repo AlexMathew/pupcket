@@ -2,7 +2,7 @@ import os
 
 from rest_framework import serializers
 
-from pup.models import SavedMoment
+from .models import SavedMoment
 
 
 class SavedMomentSerializer(serializers.ModelSerializer):

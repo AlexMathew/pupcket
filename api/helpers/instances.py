@@ -1,6 +1,6 @@
 import os
 
-from pup.helpers.s3 import S3
+from .s3 import S3
 
 s3 = S3(
     aws_region=os.getenv("AWS_REGION"),

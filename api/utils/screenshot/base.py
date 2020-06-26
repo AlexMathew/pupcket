@@ -4,7 +4,7 @@ from abc import abstractmethod
 from PIL import Image
 from selenium.webdriver.common.keys import Keys
 
-from pup.utils.screenshot.driver import Driver
+from .driver import Driver
 
 
 class Screenshot:

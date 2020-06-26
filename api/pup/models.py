@@ -9,9 +9,9 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils.functional import cached_property
 
-from pup.helpers.instances import s3
-from pup.utils.screenshot.twitter import Twitter
+from helpers.instances import s3
 from pupcket.celery import app
+from utils.screenshot.twitter import Twitter
 
 
 class SavedMoment(models.Model):

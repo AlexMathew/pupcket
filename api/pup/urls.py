@@ -2,7 +2,7 @@ from django.urls import include, path
 from rest_framework.authtoken import views
 from rest_framework.routers import DefaultRouter
 
-from pup.views import SavedMomentView
+from .views import SavedMomentView
 
 urlpatterns = [
     path("auth/", include("djoser.urls")),

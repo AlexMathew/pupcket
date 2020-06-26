@@ -1,7 +1,7 @@
 from rest_framework import mixins, status, viewsets
 
-from pup.models import SavedMoment
-from pup.serializers import SavedMomentSerializer
+from .models import SavedMoment
+from .serializers import SavedMomentSerializer
 
 
 class SavedMomentView(

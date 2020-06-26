@@ -1,4 +1,4 @@
-from pup.utils.screenshot.base import Screenshot
+from .base import Screenshot
 
 
 class Twitter(Screenshot):
