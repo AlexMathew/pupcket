@@ -11,7 +11,7 @@ import React from "react";
 // import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 // import Container from "@material-ui/core/Container";
-import Signin from "./SignIn";
+import SignIn from "./SignIn";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
 
 class AuthSection extends React.Component {
   render() {
-    return <Signin />;
+    return <SignIn />;
   }
 }
 

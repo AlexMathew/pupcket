@@ -5,6 +5,12 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
+import {
+  AUTH_TOKEN_FIELD,
+  MOMENTS_STORAGE_FIELD,
+  MOMENTS_COUNT_FIELD,
+} from "../../constants";
+import { fetchMoments } from "../../utils/pupcket";
 
 const styles = (theme) => ({
   main: {
@@ -33,6 +39,39 @@ const styles = (theme) => ({
 });
 
 class LoggedIn extends React.Component {
+  state = {
+    username: "",
+  };
+
+  componentDidMount() {
+    chrome.storage.local.get([AUTH_TOKEN_FIELD], (result) => {
+      const token = result[[AUTH_TOKEN_FIELD]];
+      if (token !== undefined && token.auth_token !== null) {
+        this.setState({ username: token.username });
+      } else {
+        this.props.history.push("/signin");
+      }
+    });
+  }
+
+  login = ({ auth_token, username }) => {
+    chrome.storage.local.set({
+      [AUTH_TOKEN_FIELD]: { auth_token, username },
+    });
+    this.setState({ authenticated: true, username: username });
+    fetchMoments();
+  };
+
+  logout = () => {
+    chrome.storage.local.remove([
+      AUTH_TOKEN_FIELD,
+      MOMENTS_STORAGE_FIELD,
+      MOMENTS_COUNT_FIELD,
+    ]);
+    this.setState({ username: "" });
+    this.props.history.push("/signin");
+  };
+
   render() {
     const { classes } = this.props;
 
@@ -41,12 +80,12 @@ class LoggedIn extends React.Component {
         <CssBaseline />
         <Paper className={classes.paper}>
           <Typography component="h4" variant="h4">
-            Logged in as {this.props.username}.
+            Logged in as {this.state.username}.
           </Typography>
           <Button
             className={classes.logout}
             variant="outlined"
-            onClick={this.props.logout}
+            onClick={this.logout}
           >
             Log out
           </Button>
