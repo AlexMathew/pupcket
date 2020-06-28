@@ -1,6 +1,6 @@
 import React from "react";
-import CssBaseline from "@material-ui/core/CssBaseline";
 import PropTypes from "prop-types";
+import CssBaseline from "@material-ui/core/CssBaseline";
 import withStyles from "@material-ui/core/styles/withStyles";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
