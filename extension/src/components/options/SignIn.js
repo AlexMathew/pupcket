@@ -9,6 +9,7 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import withStyles from "@material-ui/core/styles/withStyles";
 import Container from "@material-ui/core/Container";
+import { red } from "@material-ui/core/colors";
 import { Link as RouterLink } from "react-router-dom";
 import pupcket from "../../api/pupcket";
 import { AUTH_TOKEN_FIELD } from "../../constants";
@@ -32,12 +33,21 @@ const styles = (theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  error: {
+    fontSize: theme.spacing(2),
+    color: red[500],
+  },
 });
 
 class SignIn extends React.Component {
   state = {
     username: "",
     password: "",
+    error: {
+      general: "",
+      username: "",
+      password: "",
+    },
   };
 
   finishLogin = ({ auth_token, username }) => {
@@ -51,6 +61,8 @@ class SignIn extends React.Component {
   login = (event) => {
     event.preventDefault();
     const { username, password } = this.state;
+    const fields = ["username", "password"];
+
     pupcket
       .post("/auth/token/login/", {
         username,
@@ -60,17 +72,22 @@ class SignIn extends React.Component {
         const { auth_token } = response.data;
         this.finishLogin({ auth_token, username });
       })
-      .catch((error) => {
-        if (error.response) {
-          const data = error.response.data;
-          console.log(data);
+      .catch((err) => {
+        if (err.response) {
+          const error = {};
+          const data = err.response.data;
+          error.general = data.non_field_errors;
+          fields.forEach((field) => {
+            error[[field]] = (data[[field]] || []).join(" ");
+          });
+          this.setState({ error });
         }
       });
-    event.currentTarget.reset();
   };
 
   render() {
     const { classes } = this.props;
+    const { error } = this.state;
 
     return (
       <Container component="main" maxWidth="xs">
@@ -81,6 +98,9 @@ class SignIn extends React.Component {
           </Avatar>
           <Typography component="h1" variant="h5">
             Sign in
+          </Typography>
+          <Typography component="h4" variant="h6" className={classes.error}>
+            {error.general || ""}
           </Typography>
           <form className={classes.form} noValidate onSubmit={this.login}>
             <TextField
@@ -96,6 +116,8 @@ class SignIn extends React.Component {
               onChange={(e) => {
                 this.setState({ username: e.target.value });
               }}
+              error={error.username !== undefined && error.username !== ""}
+              helperText={error.username}
             />
             <TextField
               variant="outlined"
@@ -110,6 +132,8 @@ class SignIn extends React.Component {
               onChange={(e) => {
                 this.setState({ password: e.target.value });
               }}
+              error={error.password !== undefined && error.password !== ""}
+              helperText={error.password}
             />
             <Button
               type="submit"
