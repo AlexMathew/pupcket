@@ -1,36 +1,28 @@
 import React from "react";
-import { Helmet } from "react-helmet";
-import { MOMENTS_STORAGE_FIELD } from "../constants";
+import { AUTH_TOKEN_FIELD } from "../constants";
+import NewtabMoment from "./newtab/NewtabMoment";
+import NotAuthenticated from "./newtab/NotAuthenticated";
 
 class Newtab extends React.Component {
   state = {
-    image: "",
+    authenticated: true,
   };
 
   componentDidMount() {
-    chrome.storage.local.get(MOMENTS_STORAGE_FIELD, (result) => {
-      const moments = result[[MOMENTS_STORAGE_FIELD]];
-      const imageIndex = Math.floor(Math.random() * moments.length);
-      this.setState({ image: moments[imageIndex].screenshot_url });
+    chrome.storage.local.get([AUTH_TOKEN_FIELD], (result) => {
+      const token = result[[AUTH_TOKEN_FIELD]];
+      if (token === undefined || token.auth_token === null) {
+        this.setState({ authenticated: false });
+      }
     });
   }
 
   render() {
-    return (
-      <div>
-        <Helmet>
-          <link rel="preload" as="image" href={this.state.image} />
-        </Helmet>
-        <div
-          className="container"
-          style={{ backgroundImage: `url(${this.state.image})` }}
-        ></div>
-        <div
-          className="center"
-          style={{ backgroundImage: `url(${this.state.image})` }}
-        ></div>
-      </div>
-    );
+    if (this.state.authenticated) {
+      return <NewtabMoment />;
+    }
+
+    return <NotAuthenticated />;
   }
 }
 
