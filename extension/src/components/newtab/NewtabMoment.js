@@ -13,9 +13,10 @@ class NewtabMoment extends React.Component {
       const moments = result[[MOMENTS_STORAGE_FIELD]];
       if (moments === undefined || moments.length === 0) {
         this.setState({ image: null });
+      } else {
+        const imageIndex = Math.floor(Math.random() * moments.length);
+        this.setState({ image: moments[imageIndex].screenshot_url });
       }
-      const imageIndex = Math.floor(Math.random() * moments.length);
-      this.setState({ image: moments[imageIndex].screenshot_url });
     });
   }
 
