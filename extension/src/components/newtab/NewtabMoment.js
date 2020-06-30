@@ -1,5 +1,6 @@
 import React from "react";
 import { Helmet } from "react-helmet";
+import NoMoments from "./NoMoments";
 import { MOMENTS_STORAGE_FIELD } from "../../constants";
 
 class NewtabMoment extends React.Component {
@@ -10,12 +11,18 @@ class NewtabMoment extends React.Component {
   componentDidMount() {
     chrome.storage.local.get(MOMENTS_STORAGE_FIELD, (result) => {
       const moments = result[[MOMENTS_STORAGE_FIELD]];
+      if (moments === undefined || moments.length === 0) {
+        this.setState({ image: null });
+      }
       const imageIndex = Math.floor(Math.random() * moments.length);
       this.setState({ image: moments[imageIndex].screenshot_url });
     });
   }
 
   render() {
+    if (this.state.image === null) {
+      return <NoMoments />;
+    }
     return (
       <div>
         <Helmet>
