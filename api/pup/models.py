@@ -1,10 +1,12 @@
 import base64
 import os
 from hashlib import md5
+from random import randint
 
 from django.conf import settings
 from django.core.validators import URLValidator
 from django.db import models
+from django.db.models.aggregates import Count
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils.functional import cached_property
@@ -14,6 +16,20 @@ from pupcket.celery import app
 from utils.screenshot.twitter import Twitter
 
 
+class RandomQuerySet(models.QuerySet):
+    def screenshot_generated(self):
+        return self.filter(screenshot_generated=True)
+
+    def owned_by(self, user):
+        return self.filter(owner=user)
+
+    def pick(self, count):
+        total_count = self.aggregate(count=Count("id"))["count"]
+        qs = self.all()
+        indices = {randint(0, total_count - 1) for _ in range(count)}
+        return [qs[index] for index in indices]
+
+
 class SavedMoment(models.Model):
     owner = models.ForeignKey(
         settings.AUTH_USER_MODEL, related_name="moments", on_delete=models.CASCADE
@@ -21,6 +37,9 @@ class SavedMoment(models.Model):
     url = models.CharField(max_length=500, validators=[URLValidator])
     screenshot_generated = models.BooleanField(default=False)
     created_date = models.DateTimeField(auto_now_add=True)
+
+    objects = models.Manager()
+    random = RandomQuerySet.as_manager()
 
     class Meta:
         ordering = ["-created_date"]
