@@ -1,6 +1,5 @@
 const BASE_PREFIX = process.env.NODE_ENV === "development" ? "DEV_" : "";
 
-export const PAGE_SIZE = 10;
 export const AUTH_TOKEN_FIELD = BASE_PREFIX + "PUPCKET_AUTH_TOKEN";
 export const MOMENTS_STORAGE_FIELD = BASE_PREFIX + "PUPCKET_MOMENTS";
 export const MOMENTS_COUNT_FIELD = BASE_PREFIX + "PUPCKET_MOMENTS_COUNT";
