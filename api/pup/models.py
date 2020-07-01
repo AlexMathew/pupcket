@@ -25,9 +25,9 @@ class RandomQuerySet(models.QuerySet):
 
     def pick(self, count):
         total_count = self.aggregate(count=Count("id"))["count"]
-        qs = self.all()
-        indices = {randint(0, total_count - 1) for _ in range(count)}
-        return [qs[index] for index in indices]
+        all_ids = self.values_list("id", flat=True)
+        random_ids = [all_ids[randint(0, total_count - 1)] for _ in range(count)]
+        return self.filter(id__in=random_ids)
 
 
 class SavedMoment(models.Model):
