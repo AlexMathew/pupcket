@@ -1,0 +1,10 @@
+{
+    "dev": {
+        "aws_region": "us-east-1",
+        "django_settings": "pupcket.settings",
+        "profile_name": "alex",
+        "project_name": "pawcket",
+        "runtime": "python3.7",
+        "s3_bucket": "zappa-pawcket"
+    }
+}

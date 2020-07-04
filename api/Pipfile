@@ -8,6 +8,8 @@ ipython = "*"
 jupyter = "*"
 django-debug-toolbar = "*"
 django-extensions = "*"
+zappa = "*"
+awscli = "*"
 
 [packages]
 django = "*"
