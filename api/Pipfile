@@ -23,6 +23,8 @@ djangorestframework = "*"
 celery = "*"
 djoser = "*"
 django-cors-headers = "*"
+lambda-packages = "*"
+zappa-django-utils = "*"
 
 [requires]
 python_version = "3.7"

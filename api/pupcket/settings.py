@@ -25,7 +25,7 @@ SECRET_KEY = "(#(1jx_u%=j(l0a4m^njt6=#_v-=^&mpdmoi)tz!!2^aobug%w"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True if os.environ.get("DEBUG") == "true" else False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["localhost", "xi3f7iv3e9.execute-api.us-east-1.amazonaws.com"]
 
 
 # Application definition
@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     "rest_framework.authtoken",
     "corsheaders",
     "pup",
+    "zappa_django_utils",
 ]
 
 MIDDLEWARE = [

@@ -5,6 +5,10 @@
         "profile_name": "alex",
         "project_name": "pawcket",
         "runtime": "python3.7",
-        "s3_bucket": "zappa-pawcket"
+        "s3_bucket": "zappa-pawcket",
+        "vpc_config": {
+            "SubnetIds": ["subnet-03a1016b0e2b2b7ca", "subnet-09cecf10632ab682c"],
+            "SecurityGroupIds": ["sg-06045c1a4df5d9014"]
+        }
     }
 }

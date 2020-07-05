@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "5a1fc70bef0f21dfac1b9f6882975f14c95cd7bba6e1ba33ce7505c74c4b8de2"
+            "sha256": "a66668a10263f60e6a5194ab940e765d66f97504eda61a16d04b51b3d72257c2"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -156,6 +156,13 @@
             ],
             "version": "==4.6.11"
         },
+        "lambda-packages": {
+            "hashes": [
+                "sha256:b5e3b81ecef5f7c1b0903b5c40813536ba2343a33868a567e4e4ff1e26243406"
+            ],
+            "index": "pypi",
+            "version": "==0.20.0"
+        },
         "pillow": {
             "hashes": [
                 "sha256:0295442429645fa16d05bd567ef5cff178482439c9aad0411d3f0ce9b88b3a6f",
@@ -298,6 +305,14 @@
             ],
             "version": "==1.3.0"
         },
+        "zappa-django-utils": {
+            "hashes": [
+                "sha256:4803a51e65e12ac5b6cd6398be687cffb04c595032e183f9de54740c4248a4e8",
+                "sha256:b2783e7b62195565218ef1d856d0f6c4f09e4ae1a51b8fef44f202e2003406c6"
+            ],
+            "index": "pypi",
+            "version": "==0.4.1"
+        },
         "zipp": {
             "hashes": [
                 "sha256:aa36550ff0c0b7ef7fa639055d797116ee891440eac1a56f378e2d3179e0320b",
@@ -312,7 +327,7 @@
                 "sha256:5b26757dc6f79a3b7dc9fab95359328d5747fcb2409d331ea66d0272b90ab2a0",
                 "sha256:8b995ffe925347a2138d7ac0fe77155e4311a0ea6d6da4f5128fe4b3cbe5ed71"
             ],
-            "markers": "platform_system == 'Darwin'",
+            "markers": "sys_platform == 'darwin'",
             "version": "==0.1.0"
         },
         "argcomplete": {
