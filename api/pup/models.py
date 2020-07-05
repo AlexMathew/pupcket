@@ -11,7 +11,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils.functional import cached_property
 
-from helpers.instances import s3
+from helpers.instances import s3, sqs
 from pupcket.celery import app
 from utils.screenshot.twitter import Twitter
 
@@ -61,7 +61,16 @@ class SavedMoment(models.Model):
 @receiver(post_save, sender=SavedMoment)
 def save_screenshot_of_moment(sender, instance=None, created=False, **kwargs):
     if created:
-        take_screenshot.delay(instance.id, instance.url, instance.screenshot_name)
+        if settings.DEBUG:
+            take_screenshot.delay(instance.id, instance.url, instance.screenshot_name)
+        # else:
+        # sqs.send(
+        #     {
+        #         "instance_id": instance.id,
+        #         "url": instance.url,
+        #         "filename": instance.screenshot_name,
+        #     }
+        # )
 
 
 @app.task

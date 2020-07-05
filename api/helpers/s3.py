@@ -1,10 +1,16 @@
 import json
+import os
 
 import boto3
 
 
 class S3(object):
-    def __init__(self, aws_region="", aws_access_key="", aws_secret_key=""):
+    def __init__(
+        self,
+        aws_region=os.getenv("AWS_REGION"),
+        aws_access_key=os.getenv("AWS_ACCESS_KEY"),
+        aws_secret_key=os.getenv("AWS_SECRET_KEY"),
+    ):
         self.s3 = boto3.client(
             "s3",
             region_name=aws_region,
