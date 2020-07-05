@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "a66668a10263f60e6a5194ab940e765d66f97504eda61a16d04b51b3d72257c2"
+            "sha256": "87fd346d235adfa4409366a33d4f79f123c38ec900a971106fccda21798ad57f"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -89,6 +89,13 @@
             ],
             "index": "pypi",
             "version": "==3.4.0"
+        },
+        "django-s3-storage": {
+            "hashes": [
+                "sha256:f938740590ab5e5189653228e52094ddacaaf0f0faf0d719ca7a0b2391906161"
+            ],
+            "index": "pypi",
+            "version": "==0.13.2"
         },
         "django-templated-mail": {
             "hashes": [
@@ -511,10 +518,10 @@
         },
         "ipykernel": {
             "hashes": [
-                "sha256:731adb3f2c4ebcaff52e10a855ddc87670359a89c9c784d711e62d66fccdafae",
-                "sha256:a8362e3ae365023ca458effe93b026b8cdadc0b73ff3031472128dd8a2cf0289"
+                "sha256:120d1e7057824a8a73d8b721725393ca7c6562655cdc1d12652316695c8b04c0",
+                "sha256:ca45d173ae9cd4ed8a57980529e1d8d39ea56df5358b8608dbe45733023d8df4"
             ],
-            "version": "==5.3.0"
+            "version": "==5.3.1"
         },
         "ipython": {
             "hashes": [

@@ -25,6 +25,7 @@ djoser = "*"
 django-cors-headers = "*"
 lambda-packages = "*"
 zappa-django-utils = "*"
+django-s3-storage = "*"
 
 [requires]
 python_version = "3.7"
