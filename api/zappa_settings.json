@@ -9,6 +9,8 @@
         "vpc_config": {
             "SubnetIds": ["subnet-03a1016b0e2b2b7ca", "subnet-09cecf10632ab682c"],
             "SecurityGroupIds": ["sg-06045c1a4df5d9014"]
-        }
+        },
+        "certificate_arn": "arn:aws:acm:us-east-1:203713898886:certificate/0ae029fa-1749-41a5-944f-ea3363950262",
+        "domain": "getpawcket.com"
     }
 }
