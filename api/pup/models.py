@@ -25,6 +25,9 @@ class RandomQuerySet(models.QuerySet):
 
     def pick(self, count):
         total_count = self.aggregate(count=Count("id"))["count"]
+        if total_count == 0:
+            return self
+
         all_ids = self.values_list("id", flat=True)
         random_ids = [all_ids[randint(0, total_count - 1)] for _ in range(count)]
         return self.filter(id__in=random_ids)
