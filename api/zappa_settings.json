@@ -6,24 +6,10 @@
         "project_name": "pawcket",
         "runtime": "python3.7",
         "s3_bucket": "zappa-pawcket",
-        "keep_warm": false,
         "vpc_config": {
             "SubnetIds": ["subnet-03a1016b0e2b2b7ca", "subnet-09cecf10632ab682c"],
             "SecurityGroupIds": ["sg-06045c1a4df5d9014"]
         },
-        "events": [{
-                "function": "pup.jobs.load_to_sqs",
-                "expression": "rate(1 minute)"
-            },
-            {
-                "function": "pup.jobs.process_moments",
-                "event_source": {
-                    "arn": "arn:aws:sqs:us-east-1:203713898886:process_moment",
-                    "batch_size": 1,
-                    "enabled": true
-                }
-            }
-        ],
         "certificate_arn": "arn:aws:acm:us-east-1:203713898886:certificate/0ae029fa-1749-41a5-944f-ea3363950262",
         "domain": "getpawcket.com"
     }

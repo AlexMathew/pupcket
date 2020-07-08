@@ -1,5 +1,7 @@
 import json
 
+from zappa.asynchronous import task
+
 from helpers.instances import s3, sqs
 from utils.screenshot.twitter import Twitter
 
@@ -22,6 +24,13 @@ def store_image(instance_id, filename):
     )
     instance.screenshot_generated = True
     instance.save()
+
+
+@task
+def screenshot_and_save(instance_id, url, filename):
+    print("screenshot_and_save")
+    take_screenshot(url, filename)
+    store_image(instance_id, filename)
 
 
 def process_moments(event, context):

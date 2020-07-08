@@ -64,16 +64,23 @@ class SavedMoment(models.Model):
 @receiver(post_save, sender=SavedMoment)
 def save_screenshot_of_moment(sender, instance=None, created=False, **kwargs):
     if created:
-        if settings.DEBUG:
-            take_screenshot.delay(instance.id, instance.url, instance.screenshot_name)
-        # else:
-        # sqs.send(
-        #     {
-        #         "instance_id": instance.id,
-        #         "url": instance.url,
-        #         "filename": instance.screenshot_name,
-        #     }
-        # )
+        take_screenshot.delay(instance.id, instance.url, instance.screenshot_name)
+        else:
+            from .jobs import screenshot_and_save
+
+            print("POST_SAVE")
+            # screenshot_and_save(
+            #     instance.id, instance.url, instance.screenshot_name,
+            # )
+            # else:
+            sqs.get_queue("process_moment")
+            sqs.send(
+                {
+                    "instance_id": instance.id,
+                    "url": instance.url,
+                    "filename": instance.screenshot_name,
+                }
+            )
 
 
 @app.task
