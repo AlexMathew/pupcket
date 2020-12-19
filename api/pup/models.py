@@ -7,11 +7,9 @@ from django.conf import settings
 from django.core.validators import URLValidator
 from django.db import models
 from django.db.models.aggregates import Count
-from django.db.models.signals import post_save
-from django.dispatch import receiver
 from django.utils.functional import cached_property
 
-from helpers.instances import s3, sqs
+from helpers.instances import s3
 from pupcket.celery import app
 from utils.screenshot.twitter import Twitter
 
@@ -51,6 +49,14 @@ class SavedMoment(models.Model):
     def __str__(self):
         return f"{self.owner.username}: {self.url}"
 
+    def save(self, *args, **kwargs):
+        is_new = self._state.adding
+        super().save(*args, **kwargs)
+        if is_new:
+            take_screenshot.delay(
+                instance_id=self.id, url=self.url, filename=self.screenshot_name,
+            )
+
     @cached_property
     def screenshot_name(self):
         return md5(
@@ -59,12 +65,6 @@ class SavedMoment(models.Model):
                 f"{self.owner.username}:{self.url}"
             ).encode("utf-8")
         ).hexdigest()
-
-
-@receiver(post_save, sender=SavedMoment)
-def save_screenshot_of_moment(sender, instance=None, created=False, **kwargs):
-    if created:
-        take_screenshot.delay(instance.id, instance.url, instance.screenshot_name)
 
 
 @app.task

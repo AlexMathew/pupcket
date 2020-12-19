@@ -128,7 +128,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
-# STATIC_URL = "/static/"
+STATIC_URL = "/static/"
 
 PAGE_SIZE = 5
 
@@ -144,10 +144,10 @@ REST_FRAMEWORK = {
 AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY")
 AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_KEY")
 
-S3_BUCKET = "pawcket-static"
+# S3_BUCKET = "pawcket-static"
 
-STATICFILES_STORAGE = "django_s3_storage.storage.StaticS3Storage"
-AWS_S3_BUCKET_NAME_STATIC = S3_BUCKET
+# STATICFILES_STORAGE = "django_s3_storage.storage.StaticS3Storage"
+# AWS_S3_BUCKET_NAME_STATIC = S3_BUCKET
 
-AWS_S3_CUSTOM_DOMAIN = "%s.s3.amazonaws.com" % S3_BUCKET
-STATIC_URL = "https://%s/" % AWS_S3_CUSTOM_DOMAIN
+# AWS_S3_CUSTOM_DOMAIN = "%s.s3.amazonaws.com" % S3_BUCKET
+# STATIC_URL = "https://%s/" % AWS_S3_CUSTOM_DOMAIN

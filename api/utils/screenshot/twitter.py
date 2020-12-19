@@ -2,7 +2,10 @@ from .base import Screenshot
 
 
 class Twitter(Screenshot):
-    SECTION_SELECTOR = "//article[@role='article']"
+    SECTION_SELECTOR = "//div[@class='twitter-tweet twitter-tweet-rendered']"
+
+    def generate_viewer_url(self, url):
+        return f"https://viewer.getpawcket.com/twitter?url={url}"
 
     def crop_area(self, section):
         location = section.location

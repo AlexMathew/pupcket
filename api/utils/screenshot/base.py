@@ -11,8 +11,12 @@ class Screenshot:
     SECTION_SELECTOR = None
 
     def __init__(self, url, filename):
-        self.url = url
+        self.url = self.generate_viewer_url(url)
         self.filename = filename
+
+    @abstractmethod
+    def generate_viewer_url(self, url):
+        pass
 
     @abstractmethod
     def crop_area(self, section):

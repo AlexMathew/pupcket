@@ -21,5 +21,4 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("health/", lambda request: HttpResponse("<html><body>Ping.</body></html>")),
     path("api/v1/", include("pup.urls")),
-    path("api/v2/", include("saver.urls")),
 ]
