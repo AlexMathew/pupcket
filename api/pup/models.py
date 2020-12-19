@@ -47,7 +47,7 @@ class SavedMoment(models.Model):
         unique_together = ("owner", "url")
 
     def __str__(self):
-        return f"{self.owner.username}: {self.url}"
+        return self.url
 
     def save(self, *args, **kwargs):
         is_new = self._state.adding
