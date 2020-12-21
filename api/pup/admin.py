@@ -5,4 +5,4 @@ from .models import SavedMoment
 
 @admin.register(SavedMoment)
 class SavedMomentAdmin(admin.ModelAdmin):
-    list_display = ("id", "owner", "url", "screenshot_generated")
+    list_display = ("id", "owner", "url", "url_type", "screenshot_generated")
