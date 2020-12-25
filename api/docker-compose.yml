@@ -1,8 +1,7 @@
 version: "3"
 
-services:
-  pupcket:
-    container_name: pupcket-webserver
+x-services:
+  pupcket: &pupcket
     hostname: pupcket
     env_file:
       - ops/.env
@@ -12,11 +11,16 @@ services:
     depends_on:
       - db
       - redis
-    command: bash -c "python3 manage.py migrate && python3 manage.py runserver 0.0.0.0:8000"
     restart: on-failure:5
     volumes:
       - .:/code
       - pupcket-ipython:/root/.ipython
+
+services:
+  pupcket:
+    <<: *pupcket
+    container_name: pupcket-webserver
+    command: bash -c "python3 manage.py migrate && python3 manage.py runserver 0.0.0.0:8000"
     ports:
       - "8000:8000"
 
@@ -36,20 +40,9 @@ services:
       - pupcket-data-redis:/data
 
   celery:
+    <<: *pupcket
     container_name: pupcket-celery
-    env_file:
-      - ops/.env
-    build:
-      context: .
-      dockerfile: Dockerfile
-    depends_on:
-      - db
-      - redis
     command: celery -A pupcket worker --concurrency=20 --loglevel=info
-    restart: on-failure:5
-    volumes:
-      - .:/code
-      - pupcket-ipython:/root/.ipython
 
 volumes:
   pupcket-ipython:
