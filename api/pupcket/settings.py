@@ -40,14 +40,12 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
+    "rest_framework.authtoken",
     "djoser",
     "django_extensions",
     "debug_toolbar",
-    "rest_framework.authtoken",
     "corsheaders",
     "pup",
-    "zappa_django_utils",
-    "django_s3_storage",
 ]
 
 MIDDLEWARE = [
@@ -143,11 +141,3 @@ REST_FRAMEWORK = {
 
 AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY")
 AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_KEY")
-
-# S3_BUCKET = "pawcket-static"
-
-# STATICFILES_STORAGE = "django_s3_storage.storage.StaticS3Storage"
-# AWS_S3_BUCKET_NAME_STATIC = S3_BUCKET
-
-# AWS_S3_CUSTOM_DOMAIN = "%s.s3.amazonaws.com" % S3_BUCKET
-# STATIC_URL = "https://%s/" % AWS_S3_CUSTOM_DOMAIN
