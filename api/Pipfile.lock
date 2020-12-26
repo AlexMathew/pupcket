@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "5a1fc70bef0f21dfac1b9f6882975f14c95cd7bba6e1ba33ce7505c74c4b8de2"
+            "sha256": "242667045da69e78601999efe6c9d433b5bdcc91e686f8739708a867bf7a4f7b"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -188,6 +188,16 @@
             "markers": "python_version >= '3.0'",
             "version": "==0.6.0"
         },
+        "dj-rest-auth": {
+            "extras": [
+                "with_social"
+            ],
+            "hashes": [
+                "sha256:d0de0926e6df67460b62e9643b9faab04c3c1a08659c7a594f8afa1a911ba03b"
+            ],
+            "index": "pypi",
+            "version": "==2.1.2"
+        },
         "django": {
             "hashes": [
                 "sha256:5c866205f15e7a7123f1eec6ab939d22d5bde1416635cab259684af66d8e48a2",
@@ -195,6 +205,12 @@
             ],
             "index": "pypi",
             "version": "==3.1.4"
+        },
+        "django-allauth": {
+            "hashes": [
+                "sha256:f17209410b7f87da0a84639fd79d3771b596a6d3fc1a8e48ce50dabc7f441d30"
+            ],
+            "version": "==0.42.0"
         },
         "django-cors-headers": {
             "hashes": [
