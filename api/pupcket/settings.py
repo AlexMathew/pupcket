@@ -25,7 +25,12 @@ SECRET_KEY = "(#(1jx_u%=j(l0a4m^njt6=#_v-=^&mpdmoi)tz!!2^aobug%w"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True if os.environ.get("DEBUG") == "true" else False
 
-ALLOWED_HOSTS = ["127.0.0.1", "localhost", "getpawcket.com"]
+ALLOWED_HOSTS = [
+    "127.0.0.1",
+    "localhost",
+    "l6er1dldee.execute-api.us-east-1.amazonaws.com",
+    "api.getpawcket.com",
+]
 
 
 # Application definition
