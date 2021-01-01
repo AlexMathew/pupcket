@@ -24,6 +24,7 @@ celery = "*"
 djoser = "*"
 django-cors-headers = "*"
 dj-rest-auth = {extras = ["with_social"], version = "*"}
+django-s3-storage = "*"
 
 [requires]
 python_version = "3.7"

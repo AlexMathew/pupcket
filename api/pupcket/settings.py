@@ -24,11 +24,12 @@ SECRET_KEY = "(#(1jx_u%=j(l0a4m^njt6=#_v-=^&mpdmoi)tz!!2^aobug%w"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True if os.environ.get("DEBUG") == "true" else False
+IS_SERVER = True if os.environ.get("IS_SERVER") == "true" else False
 
 ALLOWED_HOSTS = [
     "127.0.0.1",
     "localhost",
-    "l6er1dldee.execute-api.us-east-1.amazonaws.com",
+    "o201zpw3ck.execute-api.us-east-1.amazonaws.com",
     "api.getpawcket.com",
 ]
 
@@ -51,6 +52,7 @@ INSTALLED_APPS = [
     "debug_toolbar",
     "corsheaders",
     "pup",
+    "django_s3_storage",
     # "dj_rest_auth",
     # "django.contrib.sites",
     # "allauth",
@@ -144,7 +146,16 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
-STATIC_URL = "/static/"
+if IS_SERVER:
+    S3_BUCKET = "pawcket-static"
+
+    STATICFILES_STORAGE = "django_s3_storage.storage.StaticS3Storage"
+    AWS_S3_BUCKET_NAME_STATIC = S3_BUCKET
+
+    AWS_S3_CUSTOM_DOMAIN = "%s.s3.amazonaws.com" % S3_BUCKET
+    STATIC_URL = "https://%s/" % AWS_S3_CUSTOM_DOMAIN
+else:
+    STATIC_URL = "/static/"
 
 PAGE_SIZE = 5
 
