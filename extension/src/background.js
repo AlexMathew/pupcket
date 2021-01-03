@@ -11,7 +11,7 @@ chrome.runtime.onInstalled.addListener(() => {
       {
         conditions: [
           new chrome.declarativeContent.PageStateMatcher({
-            pageUrl: { hostEquals: "twitter.com" },
+            pageUrl: { hostEquals: "twitter.com", pathContains: "/status/" },
           }),
         ],
         actions: [new chrome.declarativeContent.ShowPageAction()],
