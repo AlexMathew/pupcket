@@ -18,7 +18,9 @@
         "persistent": false
     },
     "page_action": {
-        "default_icon": "icons/logo48.png"
+        "default_icon": "icons/logo48.png",
+        "default_title": "Pawcket",
+        "default_popup": "popup.html"
     },
     "permissions": [
         "alarms",
