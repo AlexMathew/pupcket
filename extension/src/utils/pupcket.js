@@ -24,26 +24,35 @@ export function fetchMoments() {
   });
 }
 
-export function saveMoment(url) {
-  chrome.storage.local.get([AUTH_TOKEN_FIELD], (result) => {
-    const { auth_token } = result[[AUTH_TOKEN_FIELD]];
-    if (auth_token !== undefined && auth_token !== null) {
-      pupcket
-        .post(
-          "/moment/",
-          { url },
-          {
-            headers: {
-              Authorization: `Token ${auth_token}`,
-            },
+export async function saveMoment(url) {
+  const save = new Promise((resolve, reject) => {
+    chrome.storage.local.get([AUTH_TOKEN_FIELD], async (result) => {
+      const { auth_token } = result[[AUTH_TOKEN_FIELD]];
+      if (auth_token !== undefined && auth_token !== null) {
+        try {
+          const response = await pupcket.post(
+            "/moment/",
+            { url },
+            {
+              headers: {
+                Authorization: `Token ${auth_token}`,
+              },
+            }
+          );
+
+          resolve(response);
+        } catch (error) {
+          if (error.response?.status === 401) {
+            chrome.storage.local.remove([AUTH_TOKEN_FIELD]);
+            chrome.runtime.openOptionsPage();
           }
-        )
-        .then(() => {})
-        .catch((err) => {
-          console.log(err);
-        });
-    } else {
-      chrome.runtime.openOptionsPage();
-    }
+          reject();
+        }
+      } else {
+        chrome.runtime.openOptionsPage();
+      }
+    });
   });
+
+  return await save;
 }

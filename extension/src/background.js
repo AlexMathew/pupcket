@@ -1,4 +1,4 @@
-import { fetchMoments, saveMoment } from "./utils/pupcket";
+import { fetchMoments } from "./utils/pupcket";
 
 const REFRESH_HOURS = 1;
 
@@ -27,7 +27,3 @@ chrome.alarms.onAlarm.addListener(() => {
 function prefetchMoments() {
   fetchMoments();
 }
-
-chrome.pageAction.onClicked.addListener((tab) => {
-  saveMoment(tab.url);
-});
