@@ -56,30 +56,39 @@ class Popup extends React.Component {
     });
   }
 
+  messageSection = () => {
+    const { classes } = this.props;
+
+    return this.state.saved ? (
+      <>
+        <CheckCircleIcon className={classes.success} />
+        <Typography variant="h5" className={classes.message}>
+          Saved.
+        </Typography>
+      </>
+    ) : (
+      <>
+        <ErrorIcon className={classes.failure} />
+        <Typography variant="h5" className={classes.message}>
+          Error.
+        </Typography>
+      </>
+    );
+  };
+
   render() {
     const { classes } = this.props;
 
     return (
       <div className={classes.root}>
         <CssBaseline />
-        {!this.state.loading && this.state.saved ? (
-          <>
-            <CheckCircleIcon className={classes.success} />
-            <Typography variant="h5" className={classes.message}>
-              Saved.
-            </Typography>
-          </>
+        {this.state.loading ? (
+          <Backdrop className={classes.backdrop} open={this.state.loading}>
+            <CircularProgress color="inherit" />
+          </Backdrop>
         ) : (
-          <>
-            <ErrorIcon className={classes.failure} />
-            <Typography variant="h5" className={classes.message}>
-              Error.
-            </Typography>
-          </>
+          this.messageSection()
         )}
-        <Backdrop className={classes.backdrop} open={this.state.loading}>
-          <CircularProgress color="inherit" />
-        </Backdrop>
       </div>
     );
   }
