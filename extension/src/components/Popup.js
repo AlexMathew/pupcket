@@ -5,6 +5,7 @@ import Backdrop from "@material-ui/core/Backdrop";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import ErrorIcon from "@material-ui/icons/Error";
+import Typography from "@material-ui/core/Typography";
 import { saveMoment } from "../utils/pupcket";
 
 const styles = (theme) => ({
@@ -20,12 +21,17 @@ const styles = (theme) => ({
     color: "white",
   },
   success: {
+    fontSize: 40,
     fill: "rgb(0, 255, 0)",
     background: "rgb(255, 255, 255)",
   },
   failure: {
+    fontSize: 40,
     fill: "rgb(255, 0, 0)",
     background: "rgb(255, 255, 255)",
+  },
+  message: {
+    marginLeft: theme.spacing(1),
   },
 });
 
@@ -57,12 +63,19 @@ class Popup extends React.Component {
       <div className={classes.root}>
         <CssBaseline />
         {!this.state.loading && this.state.saved ? (
-          <CheckCircleIcon
-            style={{ fontSize: 40 }}
-            className={classes.success}
-          />
+          <>
+            <CheckCircleIcon className={classes.success} />
+            <Typography variant="h5" className={classes.message}>
+              Saved.
+            </Typography>
+          </>
         ) : (
-          <ErrorIcon style={{ fontSize: 40 }} className={classes.failure} />
+          <>
+            <ErrorIcon className={classes.failure} />
+            <Typography variant="h5" className={classes.message}>
+              Error.
+            </Typography>
+          </>
         )}
         <Backdrop className={classes.backdrop} open={this.state.loading}>
           <CircularProgress color="inherit" />
