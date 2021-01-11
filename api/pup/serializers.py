@@ -13,8 +13,15 @@ class SavedMomentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SavedMoment
-        fields = ["owner", "url", "url_type", "screenshot_url"]
-        read_only_fields = ["url_type"]
+        fields = [
+            "id",
+            "owner",
+            "url",
+            "url_type",
+            "screenshot_generated",
+            "screenshot_url",
+        ]
+        read_only_fields = ["id", "url_type", "screenshot_generated"]
 
     def create(self, validated_data):
         owner = validated_data.get("owner")

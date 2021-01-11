@@ -8,15 +8,16 @@ from .serializers import SavedMomentSerializer
 
 
 class SavedMomentView(
-    mixins.ListModelMixin, mixins.CreateModelMixin, viewsets.GenericViewSet,
+    mixins.ListModelMixin,
+    mixins.CreateModelMixin,
+    mixins.DestroyModelMixin,
+    viewsets.GenericViewSet,
 ):
     serializer_class = SavedMomentSerializer
 
     def get_queryset(self):
         if self.action in ["list"]:
-            return SavedMoment.objects.filter(screenshot_generated=True).filter(
-                owner=self.request.user
-            )
+            return SavedMoment.objects.filter(owner=self.request.user)
 
         return SavedMoment.objects.all()
 
