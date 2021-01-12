@@ -4,27 +4,26 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
-ipython = "*"
-jupyter = "*"
-django-debug-toolbar = "*"
-django-extensions = "*"
-zappa = "*"
-awscli = "*"
+ipython = "~=7.19"
+jupyter = "~=1.0"
+django-extensions = "~=3.1"
+zappa = "~=0.52"
+awscli = "~=1.18"
 
 [packages]
-django = "*"
-selenium = "*"
-pillow = "*"
-psycopg2-binary = "*"
-boto3 = "*"
-requests = "*"
-redis = "*"
-djangorestframework = "*"
-celery = "*"
-djoser = "*"
-django-cors-headers = "*"
-dj-rest-auth = {extras = ["with_social"], version = "*"}
-django-s3-storage = "*"
+django = "~=3.1"
+selenium = "~=3.141"
+pillow = "~=8.0"
+psycopg2-binary = "~=2.8"
+boto3 = "~=1.16"
+requests = "~=2.25"
+redis = "~=3.5"
+djangorestframework = "~=3.12"
+celery = "~=5.0"
+djoser = "~=2.1"
+django-cors-headers = "~=3.6"
+dj-rest-auth = {extras = ["with_social"], version = "~=2.1"}
+django-s3-storage = "~=0.13"
 
 [requires]
 python_version = "3.7"

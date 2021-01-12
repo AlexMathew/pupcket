@@ -49,7 +49,6 @@ INSTALLED_APPS = [
     "rest_framework.authtoken",
     "djoser",
     "django_extensions",
-    "debug_toolbar",
     "corsheaders",
     "pup",
     "django_s3_storage",
@@ -77,7 +76,6 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
 ROOT_URLCONF = "pupcket.urls"
