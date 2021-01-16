@@ -7,7 +7,10 @@ from django.conf import settings
 from django.core.validators import URLValidator
 from django.db import models
 from django.db.models.aggregates import Count
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.utils.functional import cached_property
+from rest_framework.authtoken.models import Token
 
 from helpers.instances import s3
 from pupcket.celery import app
@@ -91,3 +94,9 @@ def store_image(instance_id, filename):
     )
     instance.screenshot_generated = True
     instance.save()
+
+
+@receiver(post_save, sender=settings.AUTH_USER_MODEL)
+def create_auth_token(sender, instance=None, created=False, **kwargs):
+    if created:
+        Token.objects.create(user=instance)
