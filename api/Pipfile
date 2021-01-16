@@ -22,7 +22,6 @@ djangorestframework = "~=3.12"
 celery = "~=5.0"
 djoser = "~=2.1"
 django-cors-headers = "~=3.6"
-dj-rest-auth = {extras = ["with_social"], version = "~=2.1"}
 django-s3-storage = "~=0.13"
 
 [requires]

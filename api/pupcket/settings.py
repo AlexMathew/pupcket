@@ -52,20 +52,7 @@ INSTALLED_APPS = [
     "corsheaders",
     "pup",
     "django_s3_storage",
-    # "dj_rest_auth",
-    # "django.contrib.sites",
-    # "allauth",
-    # "allauth.account",
-    # "dj_rest_auth.registration",
-    # "allauth.socialaccount",
-    # "allauth.socialaccount.providers.google",
-    # "allauth.socialaccount.providers.twitter",
 ]
-
-# AUTHENTICATION_BACKENDS = [
-#     "django.contrib.auth.backends.ModelBackend",
-#     "allauth.account.auth_backends.AuthenticationBackend",
-# ]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -168,15 +155,3 @@ REST_FRAMEWORK = {
 
 AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY")
 AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_KEY")
-
-# SITE_ID = 1
-
-# SOCIALACCOUNT_PROVIDERS = {
-#     "google": {
-#         "APP": {
-#             "client_id": os.getenv("GOOGLE_CLIENT_ID"),
-#             "secret": os.getenv("GOOGLE_CLIENT_SECRET"),
-#         },
-#         "SCOPE": ["profile", "email"],
-#     }
-# }
