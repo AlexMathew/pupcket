@@ -25,4 +25,4 @@ class SocialAuthView(viewsets.GenericViewSet):
         if not user:
             user = User.objects.create(username=f"google:{user_id}", email=email)
 
-        return Response({"auth_token": user.auth_token.key})
+        return Response({"auth_token": user.auth_token.key, "username": user.username})
