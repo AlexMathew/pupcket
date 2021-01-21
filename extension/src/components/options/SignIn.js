@@ -15,6 +15,7 @@ import pupcket from "../../api/pupcket";
 import { AUTH_TOKEN_FIELD } from "../../constants";
 import { fetchMoments } from "../../utils/pupcket";
 import GoogleAuth from "./auth/GoogleAuth";
+import TwitterAuth from "./auth/TwitterAuth";
 
 const styles = (theme) => ({
   paper: {
@@ -146,6 +147,7 @@ class SignIn extends React.Component {
               Sign In
             </Button>
             <GoogleAuth />
+            <TwitterAuth />
             <Grid container justify="flex-end">
               <Grid item>
                 <RouterLink to="/signup">
