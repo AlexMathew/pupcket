@@ -2,9 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import withStyles from "@material-ui/core/styles/withStyles";
 import Button from "@material-ui/core/Button";
-import firebase from "firebase/app";
+import firebase from "../firebase";
 import "firebase/auth";
-import { firebaseConfig } from "../firebaseConfig";
 
 const styles = (theme) => ({
   button: {
@@ -12,7 +11,6 @@ const styles = (theme) => ({
   },
 });
 
-firebase.initializeApp(firebaseConfig);
 const provider = new firebase.auth.GoogleAuthProvider();
 provider.addScope("profile");
 provider.addScope("email");
