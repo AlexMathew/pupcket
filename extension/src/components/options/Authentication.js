@@ -1,7 +1,6 @@
 import React from "react";
 import SignIn from "./SignIn";
-import SignUp from "./SignUp";
-import LoggedIn from "./LoggedIn";
+import Dashboard from "./Dashboard";
 import { Switch, Route, HashRouter } from "react-router-dom";
 
 class Authentication extends React.Component {
@@ -9,9 +8,8 @@ class Authentication extends React.Component {
     return (
       <HashRouter>
         <Switch>
-          <Route exact path="/" component={LoggedIn} />
+          <Route exact path="/" component={Dashboard} />
           <Route exact path="/signin" component={SignIn} />
-          <Route exact path="/signup" component={SignUp} />
         </Switch>
       </HashRouter>
     );
