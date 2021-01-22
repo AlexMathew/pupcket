@@ -1,21 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
 import withStyles from "@material-ui/core/styles/withStyles";
-import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import TextField from "@material-ui/core/TextField";
 import Paper from "@material-ui/core/Paper";
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import CircularProgress from "@material-ui/core/CircularProgress";
 import { red } from "@material-ui/core/colors";
 import Copyright from "./Copyright";
+import FirebaseAuth from "./FirebaseAuth";
 import pupcket from "../../api/pupcket";
 import { AUTH_TOKEN_FIELD } from "../../constants";
 import { fetchMoments } from "../../utils/pupcket";
@@ -43,7 +36,7 @@ export const styles = (theme) => ({
     flexDirection: "column",
     alignItems: "center",
   },
-  form: {
+  authBlock: {
     width: "100%",
     marginTop: theme.spacing(1),
   },
@@ -142,31 +135,10 @@ class SignIn extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const { error } = this.state;
 
     return (
       <Grid container component="main" className={classes.root}>
         <CssBaseline />
-        <Dialog
-          open={this.state.modalOpen}
-          onClose={this.handleModalClose}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogTitle id="alert-dialog-title">
-            You have successfully registered on Draftnik!
-          </DialogTitle>
-          <DialogContent>
-            <DialogContentText id="alert-dialog-description">
-              {`${this.state.modalUsername}, you can now sign in to the Draftnik dashboard.`}
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={this.handleModalClose} color="primary">
-              Continue
-            </Button>
-          </DialogActions>
-        </Dialog>
         <Grid item xs={false} sm={4} md={7} className={classes.image} />
         <Grid
           item
@@ -180,65 +152,14 @@ class SignIn extends React.Component {
         >
           <div className={classes.paper}>
             <Typography component="h1" variant="h4">
-              Sign in
+              Sign in to Pawcket
             </Typography>
-            <Typography component="h4" variant="h6" className={classes.error}>
-              {error.general || ""}
-            </Typography>
-            <form className={classes.form} noValidate onSubmit={this.submit}>
-              <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                id="username"
-                label="Username"
-                name="username"
-                autoComplete="username"
-                autoFocus
-                onChange={(e) => {
-                  this.setState({ username: e.target.value });
-                }}
-                error={error.username !== undefined && error.username !== ""}
-                helperText={error.username}
-              />
-              <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-                onChange={(e) => {
-                  this.setState({ password: e.target.value });
-                }}
-                error={error.password !== undefined && error.password !== ""}
-                helperText={error.password}
-              />
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                color="primary"
-                className={classes.submit}
-              >
-                {this.state.submitting ? (
-                  <CircularProgress
-                    classes={{
-                      root: classes.submitSpinner,
-                    }}
-                  />
-                ) : (
-                  "Sign In"
-                )}
-              </Button>
-              <Box mt={5}>
-                <Copyright />
-              </Box>
-            </form>
+            <div className={classes.authBlock}>
+              <FirebaseAuth />
+            </div>
+            <Box mt={5}>
+              <Copyright />
+            </Box>
           </div>
         </Grid>
       </Grid>
