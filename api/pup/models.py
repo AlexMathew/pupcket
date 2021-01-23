@@ -109,9 +109,3 @@ def store_image(instance_id, filename):
 def create_auth_token(sender, instance=None, created=False, **kwargs):
     if created:
         Token.objects.create(user=instance)
-
-
-@receiver(post_save, sender=settings.AUTH_USER_MODEL)
-def create_profile(sender, instance=None, created=False, **kwargs):
-    if created:
-        Profile.objects.create(user=instance)
