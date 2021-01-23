@@ -17,6 +17,15 @@ from pupcket.celery import app
 from utils.screenshot.twitter import Twitter
 
 
+class Profile(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    firebase_uid = models.CharField(max_length=32, blank=True)
+    photo_url = models.CharField(max_length=256, blank=True)
+
+    def __str__(self):
+        return str(self.user)
+
+
 class RandomQuerySet(models.QuerySet):
     def screenshot_generated(self):
         return self.filter(screenshot_generated=True)
@@ -39,9 +48,7 @@ class URLType(models.TextChoices):
 
 
 class SavedMoment(models.Model):
-    owner = models.ForeignKey(
-        settings.AUTH_USER_MODEL, related_name="moments", on_delete=models.CASCADE
-    )
+    owner = models.ForeignKey(Profile, related_name="moments", on_delete=models.CASCADE)
     url = models.CharField(max_length=500, validators=[URLValidator])
     url_type = models.CharField(max_length=16, choices=URLType.choices, blank=True)
     screenshot_generated = models.BooleanField(default=False)
@@ -100,3 +107,9 @@ def store_image(instance_id, filename):
 def create_auth_token(sender, instance=None, created=False, **kwargs):
     if created:
         Token.objects.create(user=instance)
+
+
+@receiver(post_save, sender=settings.AUTH_USER_MODEL)
+def create_profile(sender, instance=None, created=False, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)

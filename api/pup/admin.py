@@ -1,6 +1,11 @@
 from django.contrib import admin
 
-from .models import SavedMoment
+from .models import Profile, SavedMoment
+
+
+@admin.register(Profile)
+class ProfileAdmin(admin.ModelAdmin):
+    pass
 
 
 @admin.register(SavedMoment)
