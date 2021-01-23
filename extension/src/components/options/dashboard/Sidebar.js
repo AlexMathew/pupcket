@@ -3,6 +3,11 @@ import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 import Divider from "@material-ui/core/Divider";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 
 const styles = (theme) => ({
   drawer: {
@@ -15,6 +20,9 @@ const styles = (theme) => ({
     width: theme.spacing(40),
   },
   toolbar: theme.mixins.toolbar,
+  logout: {
+    color: "black",
+  },
 });
 
 class Sidebar extends React.Component {
@@ -24,6 +32,18 @@ class Sidebar extends React.Component {
       <div>
         <div className={classes.toolbar} />
         <Divider />
+        <List>
+          <ListItem button onClick={this.props.logout}>
+            <ListItemIcon
+              classes={{
+                root: classes.logout,
+              }}
+            >
+              <ExitToAppIcon fontSize="large" />
+            </ListItemIcon>
+            <ListItemText primary="Sign out" />
+          </ListItem>
+        </List>
       </div>
     );
 

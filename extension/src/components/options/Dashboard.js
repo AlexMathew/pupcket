@@ -4,7 +4,12 @@ import { withStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Header from "./dashboard/Header";
 import Sidebar from "./dashboard/Sidebar";
-import { AUTH_TOKEN_FIELD } from "../../constants";
+import {
+  AUTH_TOKEN_FIELD,
+  MOMENTS_STORAGE_FIELD,
+  MOMENTS_COUNT_FIELD,
+} from "../../constants";
+import { auth } from "./firebase";
 
 const styles = (theme) => ({
   root: {
@@ -30,6 +35,17 @@ class Dashboard extends React.Component {
     });
   }
 
+  logout = () => {
+    chrome.storage.local.remove([
+      AUTH_TOKEN_FIELD,
+      MOMENTS_STORAGE_FIELD,
+      MOMENTS_COUNT_FIELD,
+    ]);
+    this.setState({});
+    auth.signOut();
+    this.props.history.push("/signin");
+  };
+
   render() {
     const { classes } = this.props;
 
@@ -37,7 +53,7 @@ class Dashboard extends React.Component {
       <div className={classes.root}>
         <CssBaseline />
         <Header />
-        <Sidebar />
+        <Sidebar logout={this.logout} />
       </div>
     );
   }
