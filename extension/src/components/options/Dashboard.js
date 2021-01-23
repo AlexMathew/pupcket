@@ -22,13 +22,21 @@ const styles = (theme) => ({
 });
 
 class Dashboard extends React.Component {
-  state = {};
+  state = {
+    username: "",
+    name: "",
+    photo: "",
+  };
 
   componentDidMount() {
     chrome.storage.local.get([AUTH_TOKEN_FIELD], (result) => {
-      const token = result[[AUTH_TOKEN_FIELD]];
-      if (token !== undefined && token.auth_token !== null) {
-        this.setState({ username: token.username });
+      const auth_data = result[[AUTH_TOKEN_FIELD]];
+      if (auth_data !== undefined && auth_data.auth_token !== null) {
+        this.setState({
+          username: auth_data.username,
+          name: auth_data.name,
+          photo: auth_data.photo,
+        });
       } else {
         this.props.history.push("/signin");
       }
@@ -41,7 +49,11 @@ class Dashboard extends React.Component {
       MOMENTS_STORAGE_FIELD,
       MOMENTS_COUNT_FIELD,
     ]);
-    this.setState({});
+    this.setState({
+      username: "",
+      name: "",
+      photo: "",
+    });
     auth.signOut();
     this.props.history.push("/signin");
   };
@@ -53,7 +65,7 @@ class Dashboard extends React.Component {
       <div className={classes.root}>
         <CssBaseline />
         <Header />
-        <Sidebar logout={this.logout} />
+        <Sidebar user={this.state} logout={this.logout} />
       </div>
     );
   }
