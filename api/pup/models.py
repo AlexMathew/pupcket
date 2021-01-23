@@ -48,7 +48,9 @@ class URLType(models.TextChoices):
 
 
 class SavedMoment(models.Model):
-    owner = models.ForeignKey(Profile, related_name="moments", on_delete=models.CASCADE)
+    owner = models.ForeignKey(
+        settings.AUTH_USER_MODEL, related_name="moments", on_delete=models.CASCADE
+    )
     url = models.CharField(max_length=500, validators=[URLValidator])
     url_type = models.CharField(max_length=16, choices=URLType.choices, blank=True)
     screenshot_generated = models.BooleanField(default=False)
