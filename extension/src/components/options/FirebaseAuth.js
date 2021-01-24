@@ -14,18 +14,23 @@ class FirebaseAuth extends React.Component {
       firebase.auth.TwitterAuthProvider.PROVIDER_ID,
     ],
     callbacks: {
-      signInSuccessWithAuthResult: async (authResult) => {
-        const user = authResult.user.toJSON();
-        const payload = {
-          ...user.providerData[0],
-          firebaseUid: user.uid,
+      signInSuccessWithAuthResult: (authResult) => {
+        const processAuthResult = async () => {
+          const user = authResult.user.toJSON();
+          const payload = {
+            ...user.providerData[0],
+            firebaseUid: user.uid,
+          };
+          const response = await pupcket.post("/social/auth/", payload);
+          chrome.storage.local.set({
+            [AUTH_TOKEN_FIELD]: { ...response.data },
+          });
+          this.props.history.push("/");
+          fetchMoments();
         };
-        const response = await pupcket.post("/social/auth/", payload);
-        chrome.storage.local.set({
-          [AUTH_TOKEN_FIELD]: { ...response.data },
-        });
-        this.props.history.push("/");
-        fetchMoments();
+
+        processAuthResult();
+        return false;
       },
     },
   };
