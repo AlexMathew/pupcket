@@ -3,6 +3,7 @@ from rest_framework import mixins, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
+from .exceptions import DuplicateSavedMomentError
 from .models import SavedMoment
 from .serializers import SavedMomentSerializer
 
@@ -23,6 +24,18 @@ class SavedMomentView(
 
     def post(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs)
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        try:
+            self.perform_create(serializer)
+        except DuplicateSavedMomentError:
+            return Response(status=status.HTTP_409_CONFLICT)
+        headers = self.get_success_headers(serializer.data)
+        return Response(
+            serializer.data, status=status.HTTP_201_CREATED, headers=headers
+        )
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)

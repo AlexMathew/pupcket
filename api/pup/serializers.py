@@ -1,9 +1,11 @@
 import os
 
+from django.db import IntegrityError
 from rest_framework import serializers
 
 from utils.url import get_url_type
 
+from .exceptions import DuplicateSavedMomentError
 from .models import SavedMoment
 
 
@@ -28,7 +30,12 @@ class SavedMomentSerializer(serializers.ModelSerializer):
         url = validated_data.get("url")
         url_type = get_url_type(url)
 
-        instance = SavedMoment.objects.create(owner=owner, url=url, url_type=url_type)
+        try:
+            instance = SavedMoment.objects.create(
+                owner=owner, url=url, url_type=url_type
+            )
+        except IntegrityError:
+            raise DuplicateSavedMomentError
 
         return instance
 
