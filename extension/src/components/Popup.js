@@ -39,6 +39,7 @@ class Popup extends React.Component {
   state = {
     loading: true,
     saved: false,
+    errorMessage: "Error.",
   };
 
   componentDidMount() {
@@ -49,6 +50,13 @@ class Popup extends React.Component {
         await saveMoment(url);
         this.setState({ saved: true });
       } catch (error) {
+        if (error.response?.status == 409) {
+          this.setState({
+            errorMessage: "This has already been saved.",
+          });
+        } else {
+          this.setState({ errorMessage: "Error." });
+        }
         this.setState({ saved: false });
       } finally {
         this.setState({ loading: false });
@@ -62,15 +70,15 @@ class Popup extends React.Component {
     return this.state.saved ? (
       <>
         <CheckCircleIcon className={classes.success} />
-        <Typography variant="h5" className={classes.message}>
+        <Typography variant="h6" className={classes.message}>
           Saved.
         </Typography>
       </>
     ) : (
       <>
         <ErrorIcon className={classes.failure} />
-        <Typography variant="h5" className={classes.message}>
-          Error.
+        <Typography variant="subtitle1" className={classes.message}>
+          {this.state.errorMessage}
         </Typography>
       </>
     );

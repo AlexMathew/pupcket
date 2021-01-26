@@ -46,7 +46,7 @@ export async function saveMoment(url) {
             chrome.storage.local.remove([AUTH_TOKEN_FIELD]);
             chrome.runtime.openOptionsPage();
           }
-          reject();
+          reject(error);
         }
       } else {
         chrome.runtime.openOptionsPage();
