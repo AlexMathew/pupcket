@@ -1,9 +1,9 @@
 {
     "manifest_version": 2,
-    "name": "Pawcket (alpha)",
+    "name": "Pawcket",
     "short_name": "Pawcket",
     "version": "0.1.0",
-    "description": "Pawcket test",
+    "description": "Save tweets to be your Chrome new tab.",
     "icons": {
         "16": "icons/logo16.png",
         "48": "icons/logo48.png",
