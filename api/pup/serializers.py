@@ -30,12 +30,11 @@ class SavedMomentSerializer(serializers.ModelSerializer):
         url = validated_data.get("url")
         url_type = get_url_type(url)
 
-        try:
-            instance = SavedMoment.objects.create(
-                owner=owner, url=url, url_type=url_type
-            )
-        except IntegrityError:
-            raise DuplicateSavedMomentError
+        instance, is_new = SavedMoment.objects.get_or_create(
+            owner=owner, url=url, url_type=url_type
+        )
+        if not is_new:
+            raise DuplicateSavedMomentError(instance.id)
 
         return instance
 

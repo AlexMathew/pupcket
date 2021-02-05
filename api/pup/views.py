@@ -30,8 +30,9 @@ class SavedMomentView(
         serializer.is_valid(raise_exception=True)
         try:
             self.perform_create(serializer)
-        except DuplicateSavedMomentError:
-            return Response(status=status.HTTP_409_CONFLICT)
+        except DuplicateSavedMomentError as error:
+            (moment_id,) = error.args
+            return Response(status=status.HTTP_409_CONFLICT, data={"id": moment_id})
         headers = self.get_success_headers(serializer.data)
         return Response(
             serializer.data, status=status.HTTP_201_CREATED, headers=headers
