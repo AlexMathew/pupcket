@@ -5,6 +5,7 @@ import Backdrop from "@material-ui/core/Backdrop";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import SuccessMessage from "./popup/SuccessMessage";
 import ErrorMessage from "./popup/ErrorMessage";
+import ConflictMessage from "./popup/ConflictMessage";
 import { saveMoment } from "../utils/pupcket";
 
 const styles = (theme) => ({
@@ -22,10 +23,15 @@ const styles = (theme) => ({
 });
 
 class Popup extends React.Component {
+  status = {
+    SUCCESS: "SUCCESS",
+    ERROR: "ERROR",
+    CONFLICT: "CONFLICT",
+  };
+
   state = {
     loading: true,
-    saved: false,
-    errorMessage: "Error.",
+    status: "",
   };
 
   componentDidMount() {
@@ -34,16 +40,13 @@ class Popup extends React.Component {
       try {
         this.setState({ loading: true });
         await saveMoment(url);
-        this.setState({ saved: true });
+        this.setState({ status: this.status.SUCCESS });
       } catch (error) {
         if (error.response?.status == 409) {
-          this.setState({
-            errorMessage: "This has already been saved.",
-          });
+          this.setState({ status: this.status.CONFLICT });
         } else {
-          this.setState({ errorMessage: "Error." });
+          this.setState({ status: this.status.ERROR });
         }
-        this.setState({ saved: false });
       } finally {
         this.setState({ loading: false });
       }
@@ -51,7 +54,16 @@ class Popup extends React.Component {
   }
 
   messageSection = () => {
-    return this.state.saved ? <SuccessMessage /> : <ErrorMessage />;
+    switch (this.state.status) {
+      case this.status.SUCCESS:
+        return <SuccessMessage />;
+      case this.status.ERROR:
+        return <ErrorMessage />;
+      case this.status.CONFLICT:
+        return <ConflictMessage />;
+      default:
+        break;
+    }
   };
 
   render() {
