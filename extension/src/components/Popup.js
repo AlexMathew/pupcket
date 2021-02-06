@@ -13,8 +13,8 @@ const styles = (theme) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    width: theme.spacing(30),
-    height: theme.spacing(10),
+    width: theme.spacing(35),
+    height: theme.spacing(15),
   },
   backdrop: {
     zIndex: theme.zIndex.drawer + 1,
