@@ -3,9 +3,8 @@ import { withStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Backdrop from "@material-ui/core/Backdrop";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import CheckCircleIcon from "@material-ui/icons/CheckCircle";
-import ErrorIcon from "@material-ui/icons/Error";
-import Typography from "@material-ui/core/Typography";
+import SuccessMessage from "./popup/SuccessMessage";
+import ErrorMessage from "./popup/ErrorMessage";
 import { saveMoment } from "../utils/pupcket";
 
 const styles = (theme) => ({
@@ -19,19 +18,6 @@ const styles = (theme) => ({
   backdrop: {
     zIndex: theme.zIndex.drawer + 1,
     color: "white",
-  },
-  success: {
-    fontSize: 40,
-    fill: "rgb(0, 255, 0)",
-    background: "rgb(255, 255, 255)",
-  },
-  failure: {
-    fontSize: 40,
-    fill: "rgb(255, 0, 0)",
-    background: "rgb(255, 255, 255)",
-  },
-  message: {
-    marginLeft: theme.spacing(1),
   },
 });
 
@@ -65,23 +51,7 @@ class Popup extends React.Component {
   }
 
   messageSection = () => {
-    const { classes } = this.props;
-
-    return this.state.saved ? (
-      <>
-        <CheckCircleIcon className={classes.success} />
-        <Typography variant="h6" className={classes.message}>
-          Saved.
-        </Typography>
-      </>
-    ) : (
-      <>
-        <ErrorIcon className={classes.failure} />
-        <Typography variant="subtitle1" className={classes.message}>
-          {this.state.errorMessage}
-        </Typography>
-      </>
-    );
+    return this.state.saved ? <SuccessMessage /> : <ErrorMessage />;
   };
 
   render() {
