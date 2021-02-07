@@ -32,6 +32,7 @@ class Popup extends React.Component {
   state = {
     loading: true,
     status: "",
+    conflictId: {},
   };
 
   componentDidMount() {
@@ -43,7 +44,10 @@ class Popup extends React.Component {
         this.setState({ status: this.status.SUCCESS });
       } catch (error) {
         if (error.response?.status == 409) {
-          this.setState({ status: this.status.CONFLICT });
+          this.setState({
+            status: this.status.CONFLICT,
+            conflictId: error.response.data?.id,
+          });
         } else {
           this.setState({ status: this.status.ERROR });
         }
@@ -60,7 +64,7 @@ class Popup extends React.Component {
       case this.status.ERROR:
         return <ErrorMessage />;
       case this.status.CONFLICT:
-        return <ConflictMessage />;
+        return <ConflictMessage conflictId={this.state.conflictId} />;
       default:
         break;
     }

@@ -56,3 +56,32 @@ export async function saveMoment(url) {
 
   return await save;
 }
+
+export async function deleteMoment(conflictId) {
+  const save = new Promise((resolve, reject) => {
+    chrome.storage.local.get([AUTH_TOKEN_FIELD], async (result) => {
+      const { auth_token } = result[[AUTH_TOKEN_FIELD]];
+      if (auth_token !== undefined && auth_token !== null) {
+        try {
+          const response = await pupcket.delete(`/moment/${conflictId}/`, {
+            headers: {
+              Authorization: `Token ${auth_token}`,
+            },
+          });
+
+          resolve(response);
+        } catch (error) {
+          if (error.response?.status === 401) {
+            chrome.storage.local.remove([AUTH_TOKEN_FIELD]);
+            chrome.runtime.openOptionsPage();
+          }
+          reject(error);
+        }
+      } else {
+        chrome.runtime.openOptionsPage();
+      }
+    });
+  });
+
+  return await save;
+}
