@@ -23,6 +23,7 @@ celery = "~=5.0"
 djoser = "~=2.1"
 django-cors-headers = "~=3.6"
 django-s3-storage = "~=0.13"
+django-redis = "~=4.12.1"
 
 [requires]
 python_version = "3.7"
