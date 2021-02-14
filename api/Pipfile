@@ -24,6 +24,7 @@ djoser = "~=2.1"
 django-cors-headers = "~=3.6"
 django-s3-storage = "~=0.13"
 django-redis = "~=4.12.1"
+django-memoize = "~=2.3.1"
 
 [requires]
 python_version = "3.7"

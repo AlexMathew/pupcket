@@ -1,4 +1,5 @@
 from django.conf import settings
+from memoize import memoize
 from rest_framework import mixins, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -15,6 +16,7 @@ class SavedMomentView(
     viewsets.GenericViewSet,
 ):
     serializer_class = SavedMomentSerializer
+    RANDOM_MEMOIZE_TIMEOUT = 15 if settings.DEBUG else 45 * 60
 
     def get_queryset(self):
         if self.action in ["list"]:
@@ -41,13 +43,18 @@ class SavedMomentView(
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
 
-    @action(detail=False)
-    def random(self, request):
-        moments = (
+    @classmethod
+    @memoize(timeout=RANDOM_MEMOIZE_TIMEOUT)
+    def get_random_moments(cls, user):
+        return (
             SavedMoment.random.screenshot_generated()
-            .owned_by(self.request.user)
+            .owned_by(user)
             .pick(settings.PAGE_SIZE)
         )
+
+    @action(detail=False)
+    def random(self, request):
+        moments = self.get_random_moments(self.request.user)
 
         page = self.paginate_queryset(moments)
         if page is not None:
