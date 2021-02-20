@@ -70,9 +70,14 @@ class SavedMoment(models.Model):
         is_new = self._state.adding
         super().save(*args, **kwargs)
         if is_new:
-            take_screenshot.delay(
-                instance_id=self.id, url=self.url, filename=self.screenshot_name,
-            )
+            self.generate_screenshot()
+
+    def generate_screenshot(self):
+        take_screenshot.delay(
+            instance_id=self.id,
+            url=self.url,
+            filename=self.screenshot_name,
+        )
 
     @cached_property
     def screenshot_name(self):
